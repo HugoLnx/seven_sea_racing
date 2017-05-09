@@ -3,17 +3,19 @@ var SCALE = 0.25;
 function Racer(body, sprite) {
   this.body = body;
   this.sprite = sprite;
+  Controls.instance(sprite);
   var absoluteVelocity = 5;
+  var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
 
   this.sprite.setPosition(cc.winSize.width/2, cc.winSize.height/2);
 
   this.behave = function(frame) {
     var ROTATION_SPEED_DEGREES_PER_SECOND = 180;
-    var ROTATION_UPDATE_RATE_FRAMES = 6;
+    var ROTATION_UPDATE_RATE_SECONDS = 0.1;
+    var FPS = 60;
 
-    var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
-    var touchPosition = Controls.touching();
-    if(frame % ROTATION_UPDATE_RATE_SECONDS === 0) {
+    if(frame % (ROTATION_UPDATE_RATE_SECONDS*FPS) === 0) {
+      var touchPosition = Controls.instance().touching();
       if(touchPosition === null) return;
       var middle = {x: cc.winSize.width/2, y: cc.winSize.height/2};
       var touchVector = {x: touchPosition.x - middle.x, y: touchPosition.y - middle.y};
@@ -26,43 +28,49 @@ function Racer(body, sprite) {
         var rotation = angleDistance === 0 ? 0 : (angleDistance/Math.abs(angleDistance)) * rotationAbs;
         this.body.velocity(Geometry.toVector((body.direction() - rotation + 360) % 360, absoluteVelocity));
       } else {
-        this.body.velocity(Geometry.toVector(touchVector, absoluteVelocity));
+        this.body.velocity(Geometry.toVector(Geometry.angle(touchVector), absoluteVelocity));
       }
     }
   };
 
   this.update = function() {
-    this.sprite.update(this.body.position().x, this.body.position().y, this.body.velocityDirection());
+    this.sprite.update(this.body.x(), this.body.y(), this.body.direction());
   };
 }
 
 Physics = {};
 Physics.Body = function(width, height, isSolid, weight) {
-  this.velocity = {x: 0, y: 0};
-  this.position = {x: 0, y: 0};
+  this.vel = {x: 0, y: 0};
+  this.pos = {x: 0, y: 0};
   this.width = width;
   this.height = height;
   this.isSolid = isSolid;
   this.weight = weight;
 
-  this.x = function(){ return this.position.x; };
-  this.y = function(){ return this.position.y; };
+  this.x = function(){ return this.position().x; };
+  this.y = function(){ return this.position().y; };
 
   this.attachTo = function(raceObject) {
     this.related = raceObject;
   };
 
-  this.velocityDirection = function(value) {
-    if(value === undefined) {
-      return Geometry.angle(this.velocity);
-    } else {
-      this.velocity = value;
-    }
+  this.position = function(value) {
+    if(value === undefined) return this.pos;
+    else this.pos = value;
+  }
+
+  this.velocity = function(value) {
+    if(value === undefined) return this.vel;
+    else this.vel = value;
+  };
+
+  this.direction = function() {
+    return Geometry.angle(this.vel);
   };
 
   this.update = function() {
-    this.position.x += this.velocity.x;
-    this.position.y += this.velocity.y;
+    this.pos.x += this.vel.x;
+    this.pos.y += this.vel.y;
   };
 };
 
@@ -93,6 +101,7 @@ Physics.Universe.dropInstance = function() {
 
 Racer.build = function() {
   var body = new Physics.Body(100, 100, true, 5);
+  body.velocity({x: 5, y: 0}); // initial velocity
   Physics.Universe.instance().add(body);
   var racer = new Racer(body, new Sprites.Player());
   body.attachTo(racer);
@@ -101,7 +110,7 @@ Racer.build = function() {
 
 function Race(racer) {
   this.currentFrame = 0;
-  this.objects = [];
+  this.objects = [racer];
   this.racer = racer;
 
   this.add = function(obj) {
@@ -111,7 +120,7 @@ function Race(racer) {
   this.update = function() {
     this.currentFrame++;
     for(var i = 0; i<this.objects.length; i++) {
-      this.objects[i].behave();
+      this.objects[i].behave(this.currentFrame);
     }
 
     Physics.Universe.instance().update();
@@ -122,8 +131,8 @@ function Race(racer) {
   };
 
   this.calculateCameraPosition = function() {
-    var x = cc.winSize.width/2-this.racer.body.x().x;
-    var y = cc.winSize.height/2-this.racer.body.y().y;
+    var x = cc.winSize.width/2-this.racer.body.x();
+    var y = cc.winSize.height/2-this.racer.body.y();
     return {x: x, y: y};
   }
 }
@@ -194,7 +203,7 @@ function Controls(sprite) {
       controls.onTouchLeave();
     }
   });
-  cc.eventManager.addListener(listener, sprite);
+  cc.eventManager.addListener(this.listener, sprite);
 
   this.onTouch = function(x, y) {
     this.touchPosition = {x: x, y: y};
@@ -232,9 +241,9 @@ Sprites.Player = cc.Sprite.extend({
   update: function(x, y, direction) {
     this.setPosition(x, y);
     if(direction > 90 && direction < 270) {
-      setFlippedY(true);
+      this.setFlippedY(true);
     } else {
-      setFlippedY(false);
+      this.setFlippedY(false);
     }
     this.setRotation(-direction);
   }
