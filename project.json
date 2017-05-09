@@ -12,8 +12,19 @@
     "modules" : ["cocos2d", "chipmunk"],
 
     "jsList" : [
+        "lib/init.js",
+        "lib/geometry.js",
+        "src/init.js",
         "src/resource.js",
-        "src/app.js",
+        "src/model/controls.js",
+        "src/model/physics/body.js",
+        "src/model/physics/universe.js",
+        "src/sprites/racer.js",
+        "src/model/domain/race.js",
+        "src/model/domain/racer.js",
+        "src/layers/background.js",
+        "src/layers/race_layer.js",
+        "src/scenes/race_scene.js",
         "src/globals.js"
     ]
 }
