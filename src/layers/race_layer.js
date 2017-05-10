@@ -1,7 +1,8 @@
 Layers.RaceLayer = cc.Layer.extend({
-  player: null,
-  init: function(racerSprite) {
+  init: function(sprites) {
     this._super();
-    this.addChild(racerSprite, 0);
+    for(var i = 0; i<sprites.length; i++) {
+      this.addChild(sprites[i], 0);
+    }  
   }
 });

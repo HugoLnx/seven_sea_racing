@@ -6,8 +6,6 @@ Model.Domain.Racer = (function() {
     var absoluteVelocity = 5;
     var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
 
-    this.sprite.setPosition(cc.winSize.width/2, cc.winSize.height/2);
-
     this.behave = function(frame) {
       var ROTATION_SPEED_DEGREES_PER_SECOND = 180;
       var ROTATION_UPDATE_RATE_SECONDS = 0.1;
@@ -37,9 +35,10 @@ Model.Domain.Racer = (function() {
     };
   }
 
-  M.build = function() {
+  M.build = function(position, velocity) {
     var body = new Model.Physics.Body(100, 100, true, 5);
-    body.velocity({x: 5, y: 0}); // initial velocity
+    body.position(position);
+    body.velocity(velocity);
     Model.Physics.Universe.instance().add(body);
     var racer = new M(body, new Sprites.Racer());
     body.attachTo(racer);
