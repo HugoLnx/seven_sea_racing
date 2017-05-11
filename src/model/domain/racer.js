@@ -36,11 +36,14 @@ Model.Domain.Racer = (function() {
   }
 
   M.build = function(position, velocity) {
-    var body = new Model.Physics.Body(100, 100, true, 5);
+    var sprite = new Sprites.Racer();
+    var maxSide = Math.max(sprite.size().width, sprite.size().height);
+    var body = new Model.Physics.Body(maxSide, maxSide, true, 5);
+    // sprite.activateCollisionBox(body.size().width, body.size().height);
     body.position(position);
     body.velocity(velocity);
     Model.Physics.Universe.instance().add(body);
-    var racer = new M(body, new Sprites.Racer());
+    var racer = new M(body, sprite);
     body.attachTo(racer);
     return racer;
   };

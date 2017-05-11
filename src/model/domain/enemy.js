@@ -20,11 +20,14 @@ Model.Domain.Enemy = (function() {
   };
 
   M.build = function(position, velocity) {
-    var body = new Model.Physics.Body(100, 100, true, 5);
+    var sprite = new Sprites.Enemy();
+    var maxSide = Math.max(sprite.size().width, sprite.size().height);
+    var body = new Model.Physics.Body(maxSide, maxSide, true, 5);
+    // sprite.activateCollisionBox(body.size().width, body.size().height);
     body.position(position);
     body.velocity(velocity); // initial velocity
     Model.Physics.Universe.instance().add(body);
-    var enemy = new M(body, new Sprites.Enemy());
+    var enemy = new M(body, sprite);
     body.attachTo(enemy);
     return enemy;
   };
