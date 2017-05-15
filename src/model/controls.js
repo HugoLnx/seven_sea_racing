@@ -2,6 +2,8 @@ Model.Controls = (function() {
   var M = function(sprite) {
     var controls = this;
     this.touchPosition = null;
+    this.doubleTouch = null;
+    this.lastTouchTimestamp = null;
     this.listener = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
       swallowTouches: true,
@@ -10,7 +12,7 @@ Model.Controls = (function() {
         return true;
       },
       onTouchMoved: function(touch, event) {
-        controls.onTouch(touch.getLocationX(), touch.getLocationY());
+        controls.onTouchUpdate(touch.getLocationX(), touch.getLocationY());
         return true;
       },
       onTouchEnded: function(touch, event) {
@@ -20,15 +22,33 @@ Model.Controls = (function() {
     cc.eventManager.addListener(this.listener, sprite);
 
     this.onTouch = function(x, y) {
+      var timestamp = new Date().getTime();
       this.touchPosition = {x: x, y: y};
+      console.log(timestamp - this.lastTouchTimestamp);
+      if(timestamp - this.lastTouchTimestamp < 500) {
+        this.doubleTouch = {position: {x: x, y: y}, timestamp: timestamp};
+      }
+      this.lastTouchTimestamp = timestamp;
     };
+
+    this.onTouchUpdate = function(x, y) {
+      this.touchPosition = {x: x, y: y};
+      if(this.doubleTouch !== null) {
+        this.doubleTouch.position = {x: x, y: y};
+      }
+    }
 
     this.onTouchLeave = function() {
       this.touchPosition = null;
+      this.doubleTouch = null;
     };
 
     this.touching = function() {
       return this.touchPosition;
+    };
+
+    this.doubleTouching = function() {
+      return this.doubleTouch && this.doubleTouch.position;
     };
   };
 

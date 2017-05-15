@@ -2,8 +2,9 @@ Model.Domain.Racer = (function() {
   var M = function(body, sprite) {
     this.body = body;
     this.sprite = sprite;
+    this.turbo = false;
     Model.Controls.instance(sprite);
-    var absoluteVelocity = 5;
+    this.absoluteVelocity = 5;
     var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
 
     this.behave = function(frame) {
@@ -12,6 +13,22 @@ Model.Domain.Racer = (function() {
       var FPS = 60;
 
       if(frame % (ROTATION_UPDATE_RATE_SECONDS*FPS) === 0) {
+        var doubleTouchPosition = Model.Controls.instance().doubleTouching();
+        if(doubleTouchPosition !== null) {
+          this.turbo = true;
+          var self = this;
+          cc.director.getScheduler().scheduleCallbackForTarget(this.sprite, function() {
+            self.turbo = false;
+            console.log("TAC");
+          }, 5, 0);
+        }
+
+        if(this.turbo) {
+          this.absoluteVelocity = 5*2;
+        } else {
+          this.absoluteVelocity = 5;
+        }
+
         var touchPosition = Model.Controls.instance().touching();
         if(touchPosition === null) return;
         var middle = {x: cc.winSize.width/2, y: cc.winSize.height/2};
@@ -23,9 +40,9 @@ Model.Domain.Racer = (function() {
         var rotationAbs = Math.min(Math.abs(angleDistance), maxRotation)
         if(rotationAbs >= maxRotation) {
           var rotation = angleDistance === 0 ? 0 : (angleDistance/Math.abs(angleDistance)) * rotationAbs;
-          this.body.velocity(Lib.Geometry.toVector((body.direction() - rotation + 360) % 360, absoluteVelocity));
+          this.body.velocity(Lib.Geometry.toVector((body.direction() - rotation + 360) % 360, this.absoluteVelocity));
         } else {
-          this.body.velocity(Lib.Geometry.toVector(Lib.Geometry.angle(touchVector), absoluteVelocity));
+          this.body.velocity(Lib.Geometry.toVector(Lib.Geometry.angle(touchVector), this.absoluteVelocity));
         }
       }
     };
