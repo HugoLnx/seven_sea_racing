@@ -1,10 +1,13 @@
 Model.Physics.Body = function(width, height, isSolid, weight) {
+  this.acc = {x: 0, y: 0};
   this.vel = {x: 0, y: 0};
   this.pos = {x: 0, y: 0};
   this.width = width;
   this.height = height;
   this.isSolid = isSolid;
   this.weight = weight;
+  this.maxAcc = 3;
+  this.maxVel = 10;
 
   this.x = function(){ return this.position().x; };
   this.y = function(){ return this.position().y; };
@@ -27,13 +30,63 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
     else this.vel = value;
   };
 
+  this.maxVelocity = function(value) {
+    if(value === undefined) return this.maxVel;
+    else this.maxVel = value;
+  };
+
+  this.maxAcceleration = function(value) {
+    if(value === undefined) return this.maxAcc;
+    else this.maxAcc = value;
+  };
+
   this.direction = function() {
     return Lib.Geometry.angle(this.vel);
   };
 
   this.update = function() {
+    this.incrementVelocity(this.acc);
     this.pos.x += this.vel.x;
     this.pos.y += this.vel.y;
+  };
+
+  this.incrementAcceleration = function(v) {
+    this.acc.x += v.x;
+    this.acc.y += v.y;
+    this.acc = Lib.Geometry.truncate(this.acc, this.maxAcceleration());
+  };
+
+  this.incrementVelocity = function(v) {
+    this.vel.x += v.x;
+    this.vel.y += v.y;
+    var o = this.vel;
+    this.vel = Lib.Geometry.truncate(this.vel, this.maxVelocity());
+    var n = this.vel;
+  };
+
+  this.applyForce = function(force) {
+    var f = Lib.Geometry.fromVector(force);
+    var accDiff = Lib.Geometry.toVector(f.direction, f.module / this.weight);
+    this.incrementAcceleration(accDiff);
+  };
+
+  this.applyFrictionForce = function(force) {
+    var acc = force / this.weight;
+    if(this.vel.x != 0 || this.vel.y != 0) {
+      var velDirection = Lib.Geometry.angle(this.vel);
+      var velModule = Lib.Geometry.module(this.vel);
+
+      var newVelModule = Math.max(velModule - Math.sqrt(acc), 0);
+      this.vel = Lib.Geometry.toVector(velDirection, newVelModule);
+    }
+
+    if(this.acc.x != 0 || this.acc.y != 0) {
+      var accDirection = Lib.Geometry.angle(this.acc);
+      var accModule = Lib.Geometry.module(this.acc);
+
+      var newAccModule = Math.max(accModule - acc, 0);
+      this.acc = Lib.Geometry.toVector(accDirection, newAccModule);
+    }
   };
 
   this.topLeftCorner = function() {

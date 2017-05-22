@@ -6,10 +6,10 @@ Scenes.RaceScene = cc.Scene.extend({
     var bgLayer = new Layers.Background();
     bgLayer.init();
 
-    var racer = Model.Domain.Racer.build({x: 0.018*bgLayer.size().width, y: 0.37*bgLayer.size().height}, {x: 5, y: 0});
+    var racer = Model.Domain.Racer.build({x: 0.018*bgLayer.size().width, y: 0.37*bgLayer.size().height}, 0);
     this.race = new Model.Domain.Race(racer);
 
-    var enemy = Model.Domain.Enemy.build({x: 0.2*bgLayer.size().width, y: 0.35*bgLayer.size().height}, {x: 0, y: 2});
+    var enemy = Model.Domain.Enemy.build({x: 0.2*bgLayer.size().width, y: 0.35*bgLayer.size().height}, 90);
     this.race.add(enemy);
 
     this.gameLayer.init([racer.sprite, enemy.sprite]);

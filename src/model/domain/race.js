@@ -9,6 +9,9 @@ Model.Domain.Race = function(racer) {
 
   this.update = function() {
     this.currentFrame++;
+
+    Model.Physics.Universe.instance().applyFriction();
+
     for(var i = 0; i<this.objects.length; i++) {
       this.objects[i].behave(this.currentFrame);
     }
