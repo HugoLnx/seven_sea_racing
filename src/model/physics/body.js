@@ -53,15 +53,21 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
   this.incrementAcceleration = function(v) {
     this.acc.x += v.x;
     this.acc.y += v.y;
-    this.acc = Lib.Geometry.truncate(this.acc, this.maxAcceleration());
+    this.truncateAcceleration();
   };
 
   this.incrementVelocity = function(v) {
     this.vel.x += v.x;
     this.vel.y += v.y;
-    var o = this.vel;
+    this.truncateVelocity();
+  };
+
+  this.truncateVelocity = function() {
     this.vel = Lib.Geometry.truncate(this.vel, this.maxVelocity());
-    var n = this.vel;
+  };
+
+  this.truncateAcceleration = function() {
+    this.acc = Lib.Geometry.truncate(this.acc, this.maxAcceleration());
   };
 
   this.applyForce = function(force) {
@@ -78,6 +84,7 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
 
       var newVelModule = Math.max(velModule - Math.sqrt(acc), 0);
       this.vel = Lib.Geometry.toVector(velDirection, newVelModule);
+      this.truncateVelocity();
     }
 
     if(this.acc.x != 0 || this.acc.y != 0) {
@@ -86,6 +93,7 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
 
       var newAccModule = Math.max(accModule - acc, 0);
       this.acc = Lib.Geometry.toVector(accDirection, newAccModule);
+      this.truncateAcceleration();
     }
   };
 

@@ -50,6 +50,10 @@ Model.Controls = (function() {
     this.doubleTouching = function() {
       return this.doubleTouch && this.doubleTouch.position;
     };
+
+    this.clearDoubleTouching = function() {
+      this.doubleTouch = null;
+    };
   };
 
   M.instance = function(sprite) {

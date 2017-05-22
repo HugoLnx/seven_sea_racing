@@ -18,21 +18,25 @@ Model.Domain.Racer = (function() {
       var FPS = 60;
 
       if(frame % (ROTATION_UPDATE_RATE_SECONDS*FPS) === 0) {
-        //var doubleTouchPosition = Model.Controls.instance().doubleTouching();
-        //if(doubleTouchPosition !== null) {
-        //  this.turbo = true;
-        //  var self = this;
-        //  cc.director.getScheduler().scheduleCallbackForTarget(this.sprite, function() {
-        //    self.turbo = false;
-        //    console.log("TAC");
-        //  }, 5, 0);
-        //}
+        var doubleTouchPosition = Model.Controls.instance().doubleTouching();
+        if(this.turbo == false && doubleTouchPosition !== null) {
+          this.turbo = true;
+          var self = this;
+          cc.director.getScheduler().scheduleCallbackForTarget(this.sprite, function() {
+            Model.Controls.instance().clearDoubleTouching();
+            self.turbo = false;
+          }, 1, 0);
+        }
 
-        //if(this.turbo) {
-        //  this.absoluteVelocity = 5*2;
-        //} else {
-        //  this.absoluteVelocity = 5;
-        //}
+        if(this.turbo) {
+          this.absoluteForce = USUAL_RUN_FORCE*2;
+          this.body.maxVelocity(MAX_VELOCITY*2);
+          this.body.maxAcceleration(MAX_ACCELERATION*2);
+        } else {
+          this.absoluteForce = USUAL_RUN_FORCE;
+          this.body.maxVelocity(MAX_VELOCITY);
+          this.body.maxAcceleration(MAX_ACCELERATION);
+        }
 
         var touchPosition = Model.Controls.instance().touching();
         if(touchPosition === null) return;
