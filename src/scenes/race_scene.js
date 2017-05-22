@@ -18,7 +18,7 @@ Scenes.RaceScene = cc.Scene.extend({
     this.scheduleUpdate();
   },
   update: function(dt) {
-    this.race.update();
+    this.race.update(dt);
 
     var scenePosition = this.race.calculateCameraPosition();
     this.setPosition(scenePosition.x, scenePosition.y);

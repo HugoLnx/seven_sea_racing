@@ -1,7 +1,7 @@
 Model.Domain.Racer = (function() {
-  var USUAL_RUN_FORCE = 5;
-  var MAX_VELOCITY = 7.5;
-  var MAX_ACCELERATION = 10;
+  var USUAL_RUN_FORCE =  2500000;
+  var MAX_VELOCITY =     500;
+  var MAX_ACCELERATION = 62500;
   var WEIGHT = 20;
   var M = function(body, sprite, initialDirection) {
     this.body = body;
@@ -12,7 +12,7 @@ Model.Domain.Racer = (function() {
     this.direction = initialDirection;
     var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
 
-    this.behave = function(frame) {
+    this.behave = function(frame, deltaTime) {
       var ROTATION_SPEED_DEGREES_PER_SECOND = 180;
       var ROTATION_UPDATE_RATE_SECONDS = 0.1;
       var FPS = 60;
@@ -54,7 +54,7 @@ Model.Domain.Racer = (function() {
           this.direction = Lib.Geometry.angle(touchVector);
         }
 
-        this.body.applyForce(Lib.Geometry.toVector(this.direction, this.absoluteForce));
+        this.body.applyForce(Lib.Geometry.toVector(this.direction, this.absoluteForce), deltaTime);
       }
     };
 

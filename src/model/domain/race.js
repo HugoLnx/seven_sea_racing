@@ -7,16 +7,16 @@ Model.Domain.Race = function(racer) {
     this.objects.push(obj);
   };
 
-  this.update = function() {
+  this.update = function(deltaTime) {
     this.currentFrame++;
 
-    Model.Physics.Universe.instance().applyFriction();
+    Model.Physics.Universe.instance().applyFriction(deltaTime);
 
     for(var i = 0; i<this.objects.length; i++) {
-      this.objects[i].behave(this.currentFrame);
+      this.objects[i].behave(this.currentFrame, deltaTime);
     }
 
-    Model.Physics.Universe.instance().update();
+    Model.Physics.Universe.instance().update(deltaTime);
 
     for(var i = 0; i<this.objects.length; i++) {
       this.objects[i].update();

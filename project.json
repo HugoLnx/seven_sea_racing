@@ -14,6 +14,7 @@
     "jsList" : [
         "lib/init.js",
         "lib/geometry.js",
+        "lib/math.js",
         "src/init.js",
         "src/resource.js",
         "src/model/controls.js",

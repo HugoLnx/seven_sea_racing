@@ -2,16 +2,16 @@ Model.Physics.Universe = (function() {
   var M = function() {
     this.bodies = [];
 
-    this.applyFriction = function() {
+    this.applyFriction = function(deltaTime) {
       for(var i = 0; i<this.bodies.length; i++) {
-        this.bodies[i].applyFrictionForce(0.75);
+        this.bodies[i].applyFrictionForce(600000, deltaTime);
       }
     };
 
-    this.update = function() {
+    this.update = function(deltaTime) {
       for(var i = 0; i<this.bodies.length; i++) {
         var body = this.bodies[i];
-        body.update();
+        body.update(deltaTime);
       }
 
 
