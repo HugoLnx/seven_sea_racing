@@ -71,6 +71,27 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
       var diffVec = Lib.Geometry.truncate(diff.pos, this.maxVelocity()*deltaTime);
       this.pos.x += diffVec.x;
       this.pos.y += diffVec.y;
+
+      if(this.pos.x < -1335) {
+        this.pos.x = -1335;
+        this.acc.x = 0;
+        this.vel.x = 0;
+      }
+      if(this.pos.x > 1335) {
+        this.pos.x = 1335;
+        this.acc.x = 0;
+        this.vel.x = 0;
+      }
+      if(this.pos.y < -1064) {
+        this.pos.y = -1064;
+        this.acc.y = 0;
+        this.vel.y = 0;
+      }
+      if(this.pos.y > 1064) {
+        this.pos.y = 1064;
+        this.acc.y = 0;
+        this.vel.y = 0;
+      }
     }
 
     this.vel.x += diff.vel.x;
@@ -105,7 +126,6 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
 
       this.vel.x = Lib.Math.sumToZeroMax(this.vel.x, diff.vel.x);
       this.vel.y = Lib.Math.sumToZeroMax(this.vel.y, diff.vel.y);
-      console.log("vel", this.vel)
     }
 
 
@@ -114,8 +134,6 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
       var accFriction = Lib.Geometry.toVector(accFrictionDirection, frictionModule);
       this.acc.x = Lib.Math.sumToZeroMax(this.acc.x, accFriction.x);
       this.acc.y = Lib.Math.sumToZeroMax(this.acc.y, accFriction.y);
-
-      console.log("acc", this.acc)
     }
 
     //if(this.vel.x != 0 || this.vel.y != 0) {
