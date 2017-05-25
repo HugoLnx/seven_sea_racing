@@ -71,7 +71,6 @@ Model.Domain.Racer = (function() {
     body.position(position);
     body.maxVelocity(MAX_VELOCITY);
     body.maxAcceleration(MAX_ACCELERATION);
-    //body.velocity(velocity);
     Model.Physics.Universe.instance().add(body);
     var racer = new M(body, sprite, initialDirection);
     body.attachTo(racer);

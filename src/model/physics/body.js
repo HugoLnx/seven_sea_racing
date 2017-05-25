@@ -72,26 +72,32 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
       this.pos.x += diffVec.x;
       this.pos.y += diffVec.y;
 
-      if(this.pos.x < -1335) {
-        this.pos.x = -1335;
+      var maxY = 905;
+      var minY = -579;
+      var maxX = 1622;
+      var minX = -1140;
+
+      if(this.pos.x < minX) {
+        this.pos.x = minX;
         this.acc.x = 0;
         this.vel.x = 0;
       }
-      if(this.pos.x > 1335) {
-        this.pos.x = 1335;
+      if(this.pos.x > maxX) {
+        this.pos.x = maxX;
         this.acc.x = 0;
         this.vel.x = 0;
       }
-      if(this.pos.y < -1064) {
-        this.pos.y = -1064;
+      if(this.pos.y < minY) {
+        this.pos.y = minY;
         this.acc.y = 0;
         this.vel.y = 0;
       }
-      if(this.pos.y > 1064) {
-        this.pos.y = 1064;
+      if(this.pos.y > maxY) {
+        this.pos.y = maxY;
         this.acc.y = 0;
         this.vel.y = 0;
       }
+      console.log(this.pos);
     }
 
     this.vel.x += diff.vel.x;
@@ -135,24 +141,6 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
       this.acc.x = Lib.Math.sumToZeroMax(this.acc.x, accFriction.x);
       this.acc.y = Lib.Math.sumToZeroMax(this.acc.y, accFriction.y);
     }
-
-    //if(this.vel.x != 0 || this.vel.y != 0) {
-    //  var velDirection = Lib.Geometry.angle(this.vel);
-    //  var velModule = Lib.Geometry.module(this.vel);
-
-    //  var newVelModule = Math.max(velModule + this.deltaVelocity(-acc, deltaTime), 0);
-    //  this.vel = Lib.Geometry.toVector(velDirection, newVelModule);
-    //  this.truncateVelocity();
-    //}
-
-    //if(this.acc.x != 0 || this.acc.y != 0) {
-    //  var accDirection = Lib.Geometry.angle(this.acc);
-    //  var accModule = Lib.Geometry.module(this.acc);
-
-    //  var newAccModule = Math.max(accModule - acc*deltaTime, 0);
-    //  this.acc = Lib.Geometry.toVector(accDirection, newAccModule);
-    //  this.truncateAcceleration();
-    //}
   };
 
   this.topLeftCorner = function() {
