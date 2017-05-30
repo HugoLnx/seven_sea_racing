@@ -25,7 +25,7 @@ Model.Domain.Enemy = (function() {
 
   M.build = function(position, initialDirection) {
     var sprite = new Sprites.Enemy();
-    var maxSide = Math.max(sprite.size().width, sprite.size().height);
+    var maxSide = Math.max(sprite.size().width, sprite.size().height) * 0.65;
     var body = new Model.Physics.Body(maxSide, maxSide, true, 5);
     if(document && document.location && document.location.href && document.location.href.includes("collisionBoxes")) {
       sprite.activateCollisionBox(body.size().width, body.size().height);

@@ -61,7 +61,7 @@ Model.Domain.Racer = (function() {
 
   M.build = function(position, initialDirection) {
     var sprite = new Sprites.Racer();
-    var maxSide = Math.max(sprite.size().width, sprite.size().height);
+    var maxSide = Math.max(sprite.size().width*0.5, sprite.size().height*0.5);
     var body = new Model.Physics.Body(maxSide, maxSide, true, WEIGHT);
     if(document && document.location && document.location.href && document.location.href.includes("collisionBoxes")) {
       sprite.activateCollisionBox(body.size().width, body.size().height);
