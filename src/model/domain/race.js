@@ -1,7 +1,26 @@
 Model.Domain.Race = function(racer) {
+  this.width = 3252;
+  this.height = 1816;
   this.currentFrame = 0;
-  this.objects = [racer];
-  this.racer = racer;
+
+  this.init = function() {
+    var racer = Model.Domain.Racer.build({x: 0.018*this.width, y: 0.37*this.height}, 0);
+    var enemy = Model.Domain.Enemy.build({x: 0.2*this.width, y: 0.35*this.height}, 90);
+    this.objects = [racer, enemy]
+    this.racer = racer;
+    // Model.Physics.Universe.instance().setLimits({x: {min: -1140, max: 1622}, y: {min: -579, max: 905}})
+    var limits = this.calculateRacerLimits();
+    console.log(limits);
+    Model.Physics.Universe.instance().setLimits(limits)
+  };
+
+  this.sprites = function() {
+    var sprites = [];
+    for(var i = 0; i<this.objects.length; i++) {
+      sprites.push(this.objects[i].sprite);
+    }
+    return sprites;
+  };
 
   this.add = function(obj) {
     this.objects.push(obj);
@@ -28,4 +47,19 @@ Model.Domain.Race = function(racer) {
     var y = cc.winSize.height/2-this.racer.body.y();
     return {x: x, y: y};
   }
+
+  this.calculateRacerLimits = function() {
+    return {
+      x: {
+        min: -this.width/2+cc.winSize.width,
+        max: this.width/2,
+      },
+      y: {
+        min: -this.height/2+cc.winSize.height,
+        max: this.height/2,
+      }
+    };
+  };
+
+  this.init();
 };

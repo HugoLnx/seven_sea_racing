@@ -2,6 +2,13 @@ Model.Physics.Universe = (function() {
   var M = function() {
     this.bodies = [];
 
+    this.setLimits = function(limits) {
+      this.minX = limits.x.min;
+      this.maxX = limits.x.max;
+      this.minY = limits.y.min;
+      this.maxY = limits.y.max;
+    };
+
     this.applyFriction = function(deltaTime) {
       for(var i = 0; i<this.bodies.length; i++) {
         this.bodies[i].applyFrictionForce(600000, deltaTime);
@@ -24,10 +31,37 @@ Model.Physics.Universe = (function() {
           }
         }
       }
+
+      for(var i = 0; i<this.bodies.length; i++) {
+        this.ensureUniverseLimits(this.bodies[i]);
+      }
     };
 
     this.add = function(body) {
       this.bodies.push(body);
+    };
+
+    this.ensureUniverseLimits = function(body) {
+      if(body.pos.x < this.minX) {
+        body.pos.x = this.minX;
+        body.acc.x = 0;
+        body.vel.x = 0;
+      }
+      if(body.pos.x > this.maxX) {
+        body.pos.x = this.maxX;
+        body.acc.x = 0;
+        body.vel.x = 0;
+      }
+      if(body.pos.y < this.minY) {
+        body.pos.y = this.minY;
+        body.acc.y = 0;
+        body.vel.y = 0;
+      }
+      if(body.pos.y > this.maxY) {
+        body.pos.y = this.maxY;
+        body.acc.y = 0;
+        body.vel.y = 0;
+      }
     };
   };
 

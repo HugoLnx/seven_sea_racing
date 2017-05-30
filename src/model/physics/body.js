@@ -71,33 +71,6 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
       var diffVec = Lib.Geometry.truncate(diff.pos, this.maxVelocity()*deltaTime);
       this.pos.x += diffVec.x;
       this.pos.y += diffVec.y;
-
-      var maxY = 905;
-      var minY = -579;
-      var maxX = 1622;
-      var minX = -1140;
-
-      if(this.pos.x < minX) {
-        this.pos.x = minX;
-        this.acc.x = 0;
-        this.vel.x = 0;
-      }
-      if(this.pos.x > maxX) {
-        this.pos.x = maxX;
-        this.acc.x = 0;
-        this.vel.x = 0;
-      }
-      if(this.pos.y < minY) {
-        this.pos.y = minY;
-        this.acc.y = 0;
-        this.vel.y = 0;
-      }
-      if(this.pos.y > maxY) {
-        this.pos.y = maxY;
-        this.acc.y = 0;
-        this.vel.y = 0;
-      }
-      console.log(this.pos);
     }
 
     this.vel.x += diff.vel.x;

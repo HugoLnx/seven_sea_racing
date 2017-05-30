@@ -6,13 +6,9 @@ Scenes.RaceScene = cc.Scene.extend({
     var bgLayer = new Layers.Background();
     bgLayer.init();
 
-    var racer = Model.Domain.Racer.build({x: 0.018*bgLayer.size().width, y: 0.37*bgLayer.size().height}, 0);
-    this.race = new Model.Domain.Race(racer);
+    this.race = new Model.Domain.Race();
 
-    var enemy = Model.Domain.Enemy.build({x: 0.2*bgLayer.size().width, y: 0.35*bgLayer.size().height}, 90);
-    this.race.add(enemy);
-
-    this.gameLayer.init([racer.sprite, enemy.sprite]);
+    this.gameLayer.init(this.race.sprites());
     this.addChild(bgLayer, 0);
     this.addChild(this.gameLayer, 1);
     this.scheduleUpdate();
