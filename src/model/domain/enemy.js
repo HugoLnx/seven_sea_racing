@@ -27,7 +27,9 @@ Model.Domain.Enemy = (function() {
     var sprite = new Sprites.Enemy();
     var maxSide = Math.max(sprite.size().width, sprite.size().height);
     var body = new Model.Physics.Body(maxSide, maxSide, true, 5);
-    // sprite.activateCollisionBox(body.size().width, body.size().height);
+    if(document && document.location && document.location.href && document.location.href.includes("collisionBoxes")) {
+      sprite.activateCollisionBox(body.size().width, body.size().height);
+    }
     body.position(position);
     body.maxVelocity(MAX_VELOCITY);
     Model.Physics.Universe.instance().add(body);
