@@ -66,6 +66,7 @@ Model.Physics.Universe = (function() {
   };
 
   function applyCollision(body1, body2) {
+    callCollisionCallbacks(body1, body2);
     var posOnX = overlapEffect(body1.pos.x, body1.width , body1.weight, body2.pos.x, body2.width , body2.weight);
     var posOnY = overlapEffect(body1.pos.y, body1.height, body1.weight, body2.pos.y, body2.height, body2.weight);
     if(posOnX.movementAmount < posOnY.movementAmount) {
@@ -80,6 +81,13 @@ Model.Physics.Universe = (function() {
     var velsOnY = collisionVelocityEffect(body1.vel.x, body1.weight, body2.vel.x, body2.weight);
     body1.velocity({x: velsOnX.vel1, y: velsOnY.vel1});
     body2.velocity({x: velsOnX.vel2, y: velsOnY.vel2});
+  }
+
+  function callCollisionCallbacks(body1, body2) {
+    var model1 = body1.related;
+    var model2 = body2.related;
+    model1.onCollision && model1.onCollision(model2);
+    model2.onCollision && model2.onCollision(model1);
   }
 
   function collisionVelocityEffect(vel1, weight1, vel2, weight2) {

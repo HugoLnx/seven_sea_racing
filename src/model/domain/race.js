@@ -8,9 +8,8 @@ Model.Domain.Race = function(racer) {
     var enemy = Model.Domain.Enemy.build({x: 0.2*this.width, y: 0.35*this.height}, 90);
     this.objects = [racer, enemy]
     this.racer = racer;
-    // Model.Physics.Universe.instance().setLimits({x: {min: -1140, max: 1622}, y: {min: -579, max: 905}})
+    window.s = this.racer.sprite;
     var limits = this.calculateRacerLimits();
-    console.log(limits);
     Model.Physics.Universe.instance().setLimits(limits)
   };
 
@@ -38,7 +37,7 @@ Model.Domain.Race = function(racer) {
     Model.Physics.Universe.instance().update(deltaTime);
 
     for(var i = 0; i<this.objects.length; i++) {
-      this.objects[i].update();
+      this.objects[i].update(deltaTime);
     }
   };
 

@@ -4,9 +4,11 @@ Model.Domain.Racer = (function() {
   var MAX_ACCELERATION = 60000;
   var WEIGHT = 20;
   var M = function(body, sprite, initialDirection) {
+    this.isRecovering = false;
     this.body = body;
     this.sprite = sprite;
     this.turbo = false;
+    this.health = 5;
     Model.Controls.instance(sprite);
     this.absoluteForce = USUAL_RUN_FORCE;
     this.direction = initialDirection;
@@ -54,9 +56,26 @@ Model.Domain.Racer = (function() {
       this.body.applyForce(Lib.Geometry.toVector(this.direction, this.absoluteForce), deltaTime);
     };
 
-    this.update = function() {
-      this.sprite.update(this.body.x(), this.body.y(), this.direction);
+    this.update = function(deltaTime) {
+      this.sprite.update(this.body.x(), this.body.y(), this.direction, deltaTime);
     };
+
+    this.takeHit = function() {
+      this.health -= 1;
+    };
+
+    this.onCollision = function(model) {
+      if(!this.isRecovering && model.hurts) {
+        this.isRecovering = true;
+        this.sprite.recovering(true);
+        this.takeHit();
+        var self = this;
+        cc.director.getScheduler().scheduleCallbackForTarget(this.sprite, function() {
+          self.isRecovering = false;
+          self.sprite.recovering(false);
+        }, 5, 0);
+      }
+    }
   }
 
   M.build = function(position, initialDirection) {

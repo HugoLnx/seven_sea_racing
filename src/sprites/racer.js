@@ -1,12 +1,27 @@
 Sprites.Racer = cc.Sprite.extend({
   rectangle: null,
+  recoveringAnimation: false,
+  recoveringBlinkDuration: 0,
   ctor: function() {
     var SCALE = 0.25;
     this._super();
     this.initWithFile(res.horsefish_png);
     this.setScale(SCALE, SCALE);
   },
-  update: function(x, y, direction) {
+  update: function(x, y, direction, deltaTime) {
+    var RECOVERING_BLINK_DURATION = 0.25;
+    if(this.recoveringAnimation) {
+      this.recoveringBlinkDuration += deltaTime;
+      if(this.recoveringBlinkDuration <= RECOVERING_BLINK_DURATION) {
+        this.setOpacity(125);
+      } else {
+        this.setOpacity(255);
+      }
+      if (this.recoveringBlinkDuration >= RECOVERING_BLINK_DURATION*2) this.recoveringBlinkDuration = 0;
+    } else {
+      this.setOpacity(255);
+    }
+
     this.setPosition(x, y);
     if(direction > 90 && direction < 270) {
       this.setFlippedY(true);
@@ -15,6 +30,10 @@ Sprites.Racer = cc.Sprite.extend({
     }
     this.setRotation(-direction);
     if(this.rectangle) this.rectangle.setRotation(direction);
+  },
+  recovering: function(value) {
+    this.recoveringAnimation = value;
+    this.recoveringBlinkDuration = 0;
   },
   size: function() {
     return {width: this.width * this.getScaleX(), height: this.height * this.getScaleY()};

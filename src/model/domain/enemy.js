@@ -3,6 +3,7 @@ Model.Domain.Enemy = (function() {
   var M = function(body, sprite, initialDirection) {
     var WALK_DURATION_SECONDS = 2.5;
     var WALK_DURATION_FRAMES = Math.floor(WALK_DURATION_SECONDS*60);
+    this.hurts = true;
     this.body = body;
     this.sprite = sprite;
     this.firstFrame = null;
