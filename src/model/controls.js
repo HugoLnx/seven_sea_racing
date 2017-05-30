@@ -24,7 +24,6 @@ Model.Controls = (function() {
     this.onTouch = function(x, y) {
       var timestamp = new Date().getTime();
       this.touchPosition = {x: x, y: y};
-      console.log(timestamp - this.lastTouchTimestamp);
       if(timestamp - this.lastTouchTimestamp < 500) {
         this.doubleTouch = {position: {x: x, y: y}, timestamp: timestamp};
       }
