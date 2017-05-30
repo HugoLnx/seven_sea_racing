@@ -151,7 +151,7 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
     return {x: this.x() + this.size().width/2, y: this.y() + this.size().height/2};
   };
 
-  this.collides = function(obj2) {
+  this.hasCollided = function(obj2) {
     var topLeftCorner1 =     this.topLeftCorner();
     var bottomRightCorner1 = this.bottomRightCorner();
     var topLeftCorner2 =     obj2.topLeftCorner();
