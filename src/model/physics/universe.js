@@ -91,12 +91,10 @@ Model.Physics.Universe = (function() {
   }
 
   function collisionVelocityEffect(vel1, weight1, vel2, weight2) {
-    var movementAmount = vel1*weight1 + vel2*weight2;
-    var newVel1 = (weight1 - weight2) / (weight1 + weight2) * vel1 + (2 * weight2 / (weight1 + weight2)) * vel2;
-    var newVel2 = (movementAmount - newVel1*weight1) / weight2;
+    var newVel = (vel1*weight1 + vel2*weight2)/(weight1 + weight2);
     return {
-      vel1: newVel1,
-      vel2: newVel2
+      vel1: newVel,
+      vel2: newVel
     };
   }
 
