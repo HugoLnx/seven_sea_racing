@@ -6,15 +6,9 @@ Sprites.Enemy = cc.Sprite.extend({
     this.initWithFile(res.enemy_png);
     this.setScale(SCALE, SCALE);
   },
-  update: function(x, y, direction) {
+  update: function(x, y) {
     this.setPosition(x, y);
-    if(direction > 90 && direction < 270) {
-      this.setFlippedY(true);
-    } else {
-      this.setFlippedY(false);
-    }
-    this.setRotation(-direction);
-    if(this.rectangle) this.rectangle.setRotation(direction);
+    this.setFlippedX(true);
   },
   size: function() {
     return {width: this.width * this.getScaleX(), height: this.height * this.getScaleY()};
