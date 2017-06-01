@@ -11,7 +11,7 @@ Model.Physics.Universe = (function() {
 
     this.applyFriction = function(deltaTime) {
       for(var i = 0; i<this.bodies.length; i++) {
-        this.bodies[i].applyFrictionForce(600000, deltaTime);
+        this.bodies[i].applyFriction(300, deltaTime);
       }
     };
 

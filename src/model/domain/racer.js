@@ -1,7 +1,6 @@
 Model.Domain.Racer = (function() {
-  var USUAL_RUN_FORCE =  630000;
-  var MAX_VELOCITY =     400;
-  var MAX_ACCELERATION = 60000;
+  var ACCELERATION =  450;
+  var MAX_VELOCITY =  400;
   var WEIGHT = 20;
   var M = function(body, sprite, initialDirection) {
     this.isRecovering = false;
@@ -10,7 +9,7 @@ Model.Domain.Racer = (function() {
     this.turbo = false;
     this.health = 5;
     Model.Controls.instance(sprite);
-    this.absoluteForce = USUAL_RUN_FORCE;
+    this.acceleration = 0;
     this.direction = initialDirection;
     var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
 
@@ -28,17 +27,18 @@ Model.Domain.Racer = (function() {
       }
 
       if(this.turbo) {
-        this.absoluteForce = USUAL_RUN_FORCE*2;
+        this.acceleration = ACCELERATION*2;
         this.body.maxVelocity(MAX_VELOCITY*2);
-        this.body.maxAcceleration(MAX_ACCELERATION*2);
       } else {
-        this.absoluteForce = USUAL_RUN_FORCE;
+        this.acceleration = ACCELERATION;
         this.body.maxVelocity(MAX_VELOCITY);
-        this.body.maxAcceleration(MAX_ACCELERATION);
       }
 
       var touchPosition = Model.Controls.instance().touching();
-      if(touchPosition === null) return;
+      if(touchPosition === null) {
+        this.body.acceleration({x: 0, y: 0});
+        return;
+      };
       var middle = {x: cc.winSize.width/2, y: cc.winSize.height/2};
       var touchVector = {x: touchPosition.x - middle.x, y: touchPosition.y - middle.y};
       var angleDistance = this.direction - Lib.Geometry.angle(touchVector);
@@ -53,7 +53,7 @@ Model.Domain.Racer = (function() {
         this.direction = Lib.Geometry.angle(touchVector);
       }
 
-      this.body.applyForce(Lib.Geometry.toVector(this.direction, this.absoluteForce), deltaTime);
+      this.body.acceleration(Lib.Geometry.toVector(this.direction, this.acceleration));
     };
 
     this.update = function(deltaTime) {
@@ -88,7 +88,6 @@ Model.Domain.Racer = (function() {
     }
     body.position(position);
     body.maxVelocity(MAX_VELOCITY);
-    body.maxAcceleration(MAX_ACCELERATION);
     Model.Physics.Universe.instance().add(body);
     var racer = new M(body, sprite, initialDirection);
     body.attachTo(racer);

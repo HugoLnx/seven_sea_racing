@@ -6,7 +6,6 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
   this.height = height;
   this.isSolid = isSolid;
   this.weight = weight;
-  this.maxAcc = 1000000000;
   this.maxVel = 1000000000;
 
   this.x = function(){ return this.position().x; };
@@ -24,6 +23,11 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
     if(value === undefined) return this.pos;
     else this.pos = value;
   }
+
+  this.acceleration = function(value) {
+    if(value === undefined) return this.acc;
+    else this.acc = value;
+  };
 
   this.velocity = function(value) {
     if(value === undefined) return this.vel;
@@ -83,36 +87,14 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
     this.vel = Lib.Geometry.truncate(this.vel, this.maxVelocity());
   };
 
-  this.truncateAcceleration = function() {
-    this.acc = Lib.Geometry.truncate(this.acc, this.maxAcceleration());
-  };
-
-  this.applyForce = function(force, deltaTime) {
-    var f = Lib.Geometry.fromVector(force);
-    var accDiff = Lib.Geometry.toVector(f.direction, (f.module / this.weight)*deltaTime);
-    this.acc.x += accDiff.x;
-    this.acc.y += accDiff.y;
-    this.truncateAcceleration();
-  };
-
-  this.applyFrictionForce = function(force, deltaTime) {
-    var frictionModule = (force / this.weight) * deltaTime;
-
+  this.applyFriction = function(friction, deltaTime) {
     if(this.vel.x != 0 || this.vel.y != 0) {
       var velFrictionDirection = (Lib.Geometry.angle(this.vel) + 360 + 180) % 360;
-      var velFriction = Lib.Geometry.toVector(velFrictionDirection, frictionModule);
+      var velFriction = Lib.Geometry.toVector(velFrictionDirection, friction);
       var diff = this.accelerationEffect(velFriction, deltaTime);
 
       this.vel.x = Lib.Math.sumToZeroMax(this.vel.x, diff.vel.x);
       this.vel.y = Lib.Math.sumToZeroMax(this.vel.y, diff.vel.y);
-    }
-
-
-    if(this.acc.x != 0 || this.acc.y != 0) {
-      var accFrictionDirection = (Lib.Geometry.angle(this.acc) + 360 + 180) % 360;
-      var accFriction = Lib.Geometry.toVector(accFrictionDirection, frictionModule);
-      this.acc.x = Lib.Math.sumToZeroMax(this.acc.x, accFriction.x);
-      this.acc.y = Lib.Math.sumToZeroMax(this.acc.y, accFriction.y);
     }
   };
 
