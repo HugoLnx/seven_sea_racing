@@ -19,7 +19,7 @@ Scenes.StartScene = cc.Scene.extend({
   },
   createButtonFor: function(bgSize, scale) {
     var sprite = new Sprites.Button(res.start_screen_button_on_png, res.start_screen_button_off_png);
-    sprite.setPosition(bgSize.width/2, bgSize.height * 0.2);
+    sprite.setPosition(bgSize.width/2, bgSize.height * 0.15);
     sprite.setScale(scale, scale);
     return sprite;
   }
