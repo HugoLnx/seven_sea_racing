@@ -5,10 +5,13 @@ Scenes.RaceScene = cc.Scene.extend({
     this.gameLayer = new Layers.RaceLayer();
     var bgLayer = new Layers.Background();
     bgLayer.init();
+    Model.Controls.resetInstance();
+    Model.Controls.instance(bgLayer.sprite);
 
     this.race = new Model.Domain.Race();
 
     this.gameLayer.init(this.race.sprites());
+    this.update(0);
     this.addChild(bgLayer, 0);
     this.addChild(this.gameLayer, 1);
     this.scheduleUpdate();

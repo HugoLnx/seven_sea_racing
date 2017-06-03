@@ -22,12 +22,15 @@
         "src/model/physics/universe.js",
         "src/sprites/racer.js",
         "src/sprites/enemy.js",
+        "src/sprites/button.js",
         "src/model/domain/race.js",
         "src/model/domain/racer.js",
         "src/model/domain/enemy.js",
         "src/layers/background.js",
+        "src/layers/cropped_full_background.js",
         "src/layers/race_layer.js",
         "src/scenes/race_scene.js",
+        "src/scenes/start_scene.js",
         "src/globals.js"
     ]
 }

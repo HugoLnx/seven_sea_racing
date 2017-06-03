@@ -62,7 +62,7 @@ Model.Controls = (function() {
   };
 
   M.resetInstance = function() {
-    M.currentInstance = null;
+    M.currentInstance = undefined;
   };
 
   return M;
