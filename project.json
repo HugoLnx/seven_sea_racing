@@ -31,6 +31,7 @@
         "src/layers/race_layer.js",
         "src/scenes/race_scene.js",
         "src/scenes/start_scene.js",
+        "src/scenes/loading_scene.js",
         "src/globals.js"
     ]
 }
