@@ -1,6 +1,5 @@
 var res = {
     horsefish_life_png : "res/horsefish-life.png",
-    horsefish_life_lost_png : "res/horsefish-life-lost.png",
     horsefish_png : "res/horsefish.png",
     horsefish_plist : "res/horsefish.plist",
     urchin_png : "res/urchin.png",

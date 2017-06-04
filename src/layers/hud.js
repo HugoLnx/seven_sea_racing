@@ -19,11 +19,12 @@ Layers.HUD = (function() {
       }
     },
     update: function(health) {
+      if(health < 0) return;
       for(var i = 0; i < health; i++) {
-        this.sprites[i].activate();
+        if(!this.sprites[i].isActive()) this.sprites[i].activate();
       }
       for(var i = health; i < this.maxHealth; i++) {
-        this.sprites[i].deactivate();
+        if(this.sprites[i].isActive()) this.sprites[i].deactivate();
       }
     },
     createHeadSprite: function() {
@@ -37,15 +38,15 @@ Layers.HUD = (function() {
       ctor: function() {
         this._super();
         this.initWithFile(res.horsefish_life_png);
-        this.setScale(0.85);
+        this.setScale(0.75);
         this.activate();
       },
       activate: function() {
-        this.setTexture(res.horsefish_life_png);
+        this.setOpacity(255);
         this.activated = true;
       },
       deactivate: function() {
-        this.setTexture(res.horsefish_life_lost_png);
+        this.setOpacity(125);
         this.activated = false;
       },
       isActive: function() {
