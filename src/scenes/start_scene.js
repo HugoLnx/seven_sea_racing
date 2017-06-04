@@ -2,8 +2,7 @@ Scenes.StartScene = cc.Scene.extend({
   button: null,
   onEnter: function() {
     this._super();
-    var bgLayer = new Layers.CroppedFullBackground();
-    bgLayer.init(res.start_screen_background_png, cc.winSize);
+    var bgLayer = new Sprites.CroppedFullBackground(res.start_screen_background_png, cc.winSize);
     var button = this.createButtonFor(cc.winSize, bgLayer.scale());
 
     this.addChild(bgLayer, 0);

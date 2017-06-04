@@ -57,7 +57,6 @@ Model.Domain.Racer = (function() {
     };
 
     this.update = function(deltaTime) {
-      console.log("Health", this.health);
       this.sprite.update(this.body.x(), this.body.y(), this.direction, this.body.velocityModulePercentage(), this.turbo, deltaTime);
     };
 
