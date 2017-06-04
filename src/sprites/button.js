@@ -5,7 +5,6 @@ Sprites.Button = cc.Sprite.extend({
     this.off_png = off_png;
     this._super();
     this.initWithFile(off_png);
-    sprite = this;
   },
   update: function() {
     if(this.isTouching()) {

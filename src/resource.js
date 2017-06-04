@@ -2,6 +2,7 @@ var res = {
     HelloWorld_png : "res/HelloWorld.png",
     dolphin_png : "res/dolphin.png",
     horsefish_png : "res/horsefish.png",
+    horsefish_plist : "res/horsefish.plist",
     enemy_png : "res/ourico.png",
     background_png : "res/background.png",
     start_screen_background_png : "res/start_screen.png",

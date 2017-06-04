@@ -34,6 +34,11 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
     else this.vel = value;
   };
 
+  this.velocityModulePercentage = function() {
+    var velModule = Lib.Geometry.module(this.vel);
+    return velModule / this.maxVelocity();
+  };
+
   this.maxVelocity = function(value) {
     if(value === undefined) return this.maxVel;
     else this.maxVel = value;
