@@ -7,7 +7,8 @@ Model.Domain.Racer = (function() {
     this.body = body;
     this.sprite = sprite;
     this.turbo = false;
-    this.health = 5;
+    this.maxHealth = 5;
+    this.health = this.maxHealth;
     Model.Controls.instance(sprite);
     this.acceleration = 0;
     this.direction = initialDirection;
