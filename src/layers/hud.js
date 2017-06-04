@@ -38,7 +38,7 @@ Layers.HUD = (function() {
       ctor: function() {
         this._super();
         this.initWithFile(res.horsefish_life_png);
-        this.setScale(0.75);
+        this.setScale(0.45);
         this.activate();
       },
       activate: function() {
@@ -46,7 +46,7 @@ Layers.HUD = (function() {
         this.activated = true;
       },
       deactivate: function() {
-        this.setOpacity(125);
+        this.setOpacity(50);
         this.activated = false;
       },
       isActive: function() {
