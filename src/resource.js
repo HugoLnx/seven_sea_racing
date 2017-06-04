@@ -1,6 +1,4 @@
 var res = {
-    HelloWorld_png : "res/HelloWorld.png",
-    dolphin_png : "res/dolphin.png",
     horsefish_life_png : "res/horsefish-life.png",
     horsefish_life_lost_png : "res/horsefish-life-lost.png",
     horsefish_png : "res/horsefish.png",
