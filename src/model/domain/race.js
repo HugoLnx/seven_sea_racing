@@ -8,7 +8,6 @@ Model.Domain.Race = function(racer) {
     var enemy = Model.Domain.Enemy.build({x: 0.2*this.width, y: 0.35*this.height}, 90);
     this.objects = [racer, enemy]
     this.racer = racer;
-    window.s = this.racer.sprite;
     var limits = this.calculateRacerLimits();
     Model.Physics.Universe.instance().setLimits(limits)
   };

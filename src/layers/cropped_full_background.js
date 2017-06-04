@@ -1,12 +1,12 @@
 Layers.CroppedFullBackground = cc.Layer.extend({
   sprite: null,
-  init: function(background_image) {
+  init: function(background_image, frameSize) {
     this._super();
     var sprite = cc.Sprite.create(background_image);
-    sprite.setPosition(cc.winSize.width/2, cc.winSize.height/2);
+    sprite.setPosition(frameSize.width/2, frameSize.height/2);
     var result = Lib.Math.expandInFrame({
       elementSize: {width: sprite.width, height: sprite.height},
-      frameSize: cc.winSize
+      frameSize: frameSize
     });
     sprite.setScale(result.scale, result.scale);
     this.addChild(sprite);

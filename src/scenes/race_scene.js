@@ -3,12 +3,13 @@ Scenes.RaceScene = cc.Scene.extend({
   onEnter: function() {
     this._super();
     this.gameLayer = new Layers.RaceLayer();
-    var bgLayer = new Layers.Background();
-    bgLayer.init();
+    this.race = new Model.Domain.Race();
+    var bgLayer = new Layers.CroppedFullBackground();
+    bgLayer.init(res.background_png, {width: this.race.width, height: this.race.height});
+    bgLayer.setAnchorPoint(0, 0);
+    bgLayer.sprite.setPosition(cc.winSize.width/2, cc.winSize.height/2);
     Model.Controls.resetInstance();
     Model.Controls.instance(bgLayer.sprite);
-
-    this.race = new Model.Domain.Race();
 
     this.gameLayer.init(this.race.sprites());
     this.update(0);
