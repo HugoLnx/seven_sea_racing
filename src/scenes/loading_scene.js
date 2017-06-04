@@ -1,12 +1,22 @@
 // Very ugly monkey patching D:
 Scenes.LoadingScene = (function() {
   var M = cc.LoaderScene;
+  var LABEL_COLOR = cc.color(255, 189, 0);
+  var LABEL_BACK_COLOR = cc.color(255, 131, 0);
   M.prototype.init = function(){
     var self = this;
     var fontSize = 150;
-    var label = self._label = new cc.LabelTTF("0%", "Berlin Sans FB Bold", fontSize);
-    label.enableStroke(cc.color(255, 189, 0), 10, true);
-    label.setScale(0.2);
+    var label1 = self._label = self._label1 = new cc.LabelTTF("0%", "Berlin Sans FB Regular", fontSize);
+    var label2 = self._label2 = new cc.LabelTTF("0%", "Berlin Sans FB Regular", fontSize);
+    label1.setColor(LABEL_COLOR);
+    label2.setColor(LABEL_BACK_COLOR);
+    label1.enableStroke(cc.color(255,255,255), 3, true);
+    label2.enableStroke(cc.color(255,255,255), 6, true);
+    label1.setScale(0.2);
+    label2.setScale(0.2);
+    var shadowOffset = 1;
+    label1.setPosition({x: cc.winSize.width*0.507, y: cc.winSize.height*0.145});
+    label2.setPosition({x: cc.winSize.width*0.507-shadowOffset, y: cc.winSize.height*0.145+shadowOffset});
 
     //logo
     var logoWidth = 160;
@@ -29,9 +39,8 @@ Scenes.LoadingScene = (function() {
     }
     cc.loader.loadImg("res/BerlinSansFBBold.ttf", {isCrossOrigin : false}, function() {
       //loading percent
-      label.setPosition({x: cc.winSize.width*0.507, y: cc.winSize.height*0.145});
-      label.setColor(cc.color(255, 189, 0));
-      bgLayer.addChild(label, 20);
+      bgLayer.addChild(label2, 20);
+      bgLayer.addChild(label1, 25);
     });
     return true;
   };
@@ -44,7 +53,8 @@ Scenes.LoadingScene = (function() {
       function (result, count, loadedCount) {
         var percent = (loadedCount / count * 100) | 0;
         percent = Math.min(percent, 100);
-        self._label.setString("" + percent + "%");
+        self._label1.setString("" + percent + "%");
+        self._label2.setString("" + percent + "%");
       }, function () {
         if (self.cb)
           self.cb.call(self.target);
