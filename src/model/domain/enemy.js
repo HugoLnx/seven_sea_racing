@@ -17,6 +17,7 @@ Model.Domain.Enemy = (function() {
         this.direction = (this.direction + 360 + 180) % 360;
       }
       body.acceleration(Lib.Geometry.toVector(this.direction, ACCELERATION));
+      return true;
     };
 
     this.update = function() {

@@ -17,14 +17,14 @@ Model.Domain.Racer = (function() {
     this.behave = function(frame, deltaTime) {
       var ROTATION_SPEED_DEGREES_PER_SECOND = 180;
 
-      if(this.weapon && this.weapon.weaponType() === "used") {
+      if(this.weapon && this.weapon.wasUsed()) {
         this.weapon = null;
       }
 
       var touchPosition = Model.Controls.instance().touching();
       if(touchPosition === null) {
         this.body.acceleration({x: 0, y: 0});
-        return;
+        return true;
       };
       var middle = {x: cc.winSize.width/2, y: cc.winSize.height/2};
       var touchVector = {x: touchPosition.x - middle.x, y: touchPosition.y - middle.y};
@@ -41,11 +41,13 @@ Model.Domain.Racer = (function() {
       }
 
       this.body.acceleration(Lib.Geometry.toVector(this.direction, this.acceleration));
+      return true;
     };
 
     this.update = function(deltaTime) {
       var isOnTurbo = this.weapon && this.weapon.weaponType() == "turbo" && this.weapon.isActive();
       this.sprite.update(this.body.x(), this.body.y(), this.direction, this.body.velocityModulePercentage(), isOnTurbo, deltaTime);
+      return true;
     };
 
     this.takeHit = function() {

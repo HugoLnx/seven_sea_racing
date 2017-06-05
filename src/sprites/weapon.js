@@ -2,7 +2,7 @@ Sprites.Weapon = cc.Sprite.extend({
   ctor: function(image) {
     this._super();
     this.initWithFile(image);
-    this.setScale(0.2, 0.2);
+    this.setScale(0.5, 0.5);
   },
   update: function(x, y) {
     this.setPosition(x, y);

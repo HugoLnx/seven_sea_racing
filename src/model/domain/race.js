@@ -30,8 +30,14 @@ Model.Domain.Race = function(racer) {
 
     Model.Physics.Universe.instance().applyFriction(deltaTime);
 
+    var toRemove = [];
     for(var i = 0; i<this.objects.length; i++) {
-      this.objects[i].behave(this.currentFrame, deltaTime);
+      var mustBeRemoved = !this.objects[i].behave(this.currentFrame, deltaTime);
+      if(mustBeRemoved) toRemove.push(i);
+    }
+    toRemove = toRemove.sort(function(a, b){ return b - a; })
+    for(var i = 0; i<toRemove.length; i++) {
+      this.objects.splice(toRemove[i], 1);
     }
 
     Model.Physics.Universe.instance().update(deltaTime);

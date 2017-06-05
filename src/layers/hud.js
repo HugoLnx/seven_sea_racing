@@ -4,7 +4,8 @@ Layers.HUD = (function() {
   var M = cc.Layer.extend({
     MARGIN: 10,
     INNER_MARGIN: 5,
-    sprites: [],
+    lifeSprites: [],
+    weaponSprite: null,
     maxHealth: null,
     init: function(maxHealth) {
       this._super();
@@ -15,20 +16,35 @@ Layers.HUD = (function() {
         var y = cc.winSize.height - sprite.size().height/2 - this.MARGIN;
         sprite.setPosition({x: x, y: y});
         this.addChild(sprite);
-        this.sprites.push(sprite);
+        this.lifeSprites.push(sprite);
       }
     },
-    update: function(health) {
+    update: function(health, weaponSprite) {
       if(health < 0) return;
       for(var i = 0; i < health; i++) {
-        if(!this.sprites[i].isActive()) this.sprites[i].activate();
+        if(!this.lifeSprites[i].isActive()) this.lifeSprites[i].activate();
       }
       for(var i = health; i < this.maxHealth; i++) {
-        if(this.sprites[i].isActive()) this.sprites[i].deactivate();
+        if(this.lifeSprites[i].isActive()) this.lifeSprites[i].deactivate();
+      }
+      if(this.weaponSprite === null && weaponSprite) {
+        this.weaponSprite = weaponSprite;
+        this.weaponSprite.removeFromParent();
+        this.addChild(weaponSprite);
+      } else if(this.weaponSprite && !weaponSprite) {
+        this.weaponSprite.removeFromParent();
+        this.weaponSprite = null;
+      }
+      if(this.weaponSprite) {
+        var weaponPosition = this.getWeaponPosition(this.weaponSprite);
+        this.weaponSprite.update(weaponPosition.x, weaponPosition.y);
       }
     },
-    createHeadSprite: function() {
-      return sprite;
+    getWeaponPosition: function(sprite) {
+      return {
+        x: cc.winSize.width/2,
+        y: cc.winSize.height - sprite.size().height/2
+      }
     }
   });
 

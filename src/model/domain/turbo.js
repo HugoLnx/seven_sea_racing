@@ -6,7 +6,6 @@ Model.Domain.Turbo = (function() {
     this.sprite = sprite;
     this._owner = null;
     this._state = "inactive";
-    this._used = false;
     this._ownerUsualParams = null;
 
     this.behave = function(frame, deltaTime) {
@@ -17,18 +16,22 @@ Model.Domain.Turbo = (function() {
         this._ownerPace(2);
         var self = this;
         cc.director.getScheduler().scheduleCallbackForTarget(this._owner.sprite, function() {
+          self._ownerPace(1.5);
+        }, 1, 0);
+        cc.director.getScheduler().scheduleCallbackForTarget(this._owner.sprite, function() {
           self._state = "used";
           self._ownerPace(1);
           this._ownerUsualParams = null;
-        }, 1, 0);
+        }, 1.5, 0);
       }
+
+      if(this._state === "used") return false;
+      else return true;
     };
 
     this.update = function() {
       if(this._state === "inactive") {
         this.sprite.update(this.body.x(), this.body.y());
-      } else {
-        this.sprite.removeFromParent();
       }
     };
 
@@ -48,6 +51,10 @@ Model.Domain.Turbo = (function() {
 
     this.isActive = function() {
       return this._state == "active";
+    };
+
+    this.wasUsed = function() {
+      return this._state == "used";
     };
 
     this.weaponType = function() {
