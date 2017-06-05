@@ -1,4 +1,5 @@
 var res = {
+    weapon_turbo_png : "res/weapon_turbo.png",
     horsefish_life_png : "res/horsefish-life.png",
     horsefish_png : "res/horsefish.png",
     horsefish_plist : "res/horsefish.plist",

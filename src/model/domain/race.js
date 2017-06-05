@@ -6,7 +6,8 @@ Model.Domain.Race = function(racer) {
   this.init = function() {
     var racer = Model.Domain.Racer.build({x: 0.018*this.width, y: 0.37*this.height}, 0);
     var enemy = Model.Domain.Enemy.build({x: 0.2*this.width, y: 0.35*this.height}, 90);
-    this.objects = [racer, enemy]
+    var turbo = Model.Domain.Turbo.build({x: 0.1*this.width, y: 0.4*this.height});
+    this.objects = [racer, enemy, turbo]
     this.racer = racer;
     var limits = this.calculateRacerLimits();
     Model.Physics.Universe.instance().setLimits(limits)

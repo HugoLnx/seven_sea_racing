@@ -6,33 +6,19 @@ Model.Domain.Racer = (function() {
     this.isRecovering = false;
     this.body = body;
     this.sprite = sprite;
-    this.turbo = false;
     this.maxHealth = 5;
     this.health = this.maxHealth;
+    this.weapon = null;
     Model.Controls.instance(sprite);
-    this.acceleration = 0;
+    this.acceleration = ACCELERATION;
     this.direction = initialDirection;
     var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
 
     this.behave = function(frame, deltaTime) {
       var ROTATION_SPEED_DEGREES_PER_SECOND = 180;
 
-      var doubleTouchPosition = Model.Controls.instance().doubleTouching();
-      if(this.turbo == false && doubleTouchPosition !== null) {
-        this.turbo = true;
-        var self = this;
-        cc.director.getScheduler().scheduleCallbackForTarget(this.sprite, function() {
-          Model.Controls.instance().clearDoubleTouching();
-          self.turbo = false;
-        }, 1, 0);
-      }
-
-      if(this.turbo) {
-        this.acceleration = ACCELERATION*2;
-        this.body.maxVelocity(MAX_VELOCITY*2);
-      } else {
-        this.acceleration = ACCELERATION;
-        this.body.maxVelocity(MAX_VELOCITY);
+      if(this.weapon && this.weapon.weaponType() === "used") {
+        this.weapon = null;
       }
 
       var touchPosition = Model.Controls.instance().touching();
@@ -58,15 +44,24 @@ Model.Domain.Racer = (function() {
     };
 
     this.update = function(deltaTime) {
-      this.sprite.update(this.body.x(), this.body.y(), this.direction, this.body.velocityModulePercentage(), this.turbo, deltaTime);
+      var isOnTurbo = this.weapon && this.weapon.weaponType() == "turbo" && this.weapon.isActive();
+      this.sprite.update(this.body.x(), this.body.y(), this.direction, this.body.velocityModulePercentage(), isOnTurbo, deltaTime);
     };
 
     this.takeHit = function() {
       this.health -= 1;
     };
 
+    this.catchWeapon = function(weapon) {
+      this.weapon = weapon;
+      weapon.owner(this);
+    };
+
     this.onCollision = function(model) {
-      if(!this.isRecovering && model.hurts) {
+      if(model.weaponType) {
+        this.catchWeapon(model);
+      }
+      else if(!this.isRecovering && model.hurts) {
         this.isRecovering = true;
         this.sprite.recovering(true);
         this.takeHit();

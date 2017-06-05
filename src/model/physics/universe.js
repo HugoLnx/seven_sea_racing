@@ -41,6 +41,19 @@ Model.Physics.Universe = (function() {
       this.bodies.push(body);
     };
 
+    this.remove = function(body) {
+      var inx = null;
+      for(var i = 0; i<this.bodies.length; i++) {
+        
+        if(this.bodies[i] === body) {
+          inx = i;
+        }
+      }  
+      if(inx !== null) {
+        this.bodies.splice(inx, 1);
+      }
+    }
+
     this.ensureUniverseLimits = function(body) {
       if(body.pos.x < this.minX) {
         body.pos.x = this.minX;
@@ -78,7 +91,7 @@ Model.Physics.Universe = (function() {
     }
 
     var velsOnX = collisionVelocityEffect(body1.vel.x, body1.weight, body2.vel.x, body2.weight);
-    var velsOnY = collisionVelocityEffect(body1.vel.x, body1.weight, body2.vel.x, body2.weight);
+    var velsOnY = collisionVelocityEffect(body1.vel.y, body1.weight, body2.vel.y, body2.weight);
     body1.velocity({x: velsOnX.vel1, y: velsOnY.vel1});
     body2.velocity({x: velsOnX.vel2, y: velsOnY.vel2});
   }

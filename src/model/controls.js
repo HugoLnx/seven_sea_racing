@@ -26,6 +26,10 @@ Model.Controls = (function() {
       this.touchPosition = {x: x, y: y};
       if(timestamp - this.lastTouchTimestamp < 500) {
         this.doubleTouch = {position: {x: x, y: y}, timestamp: timestamp};
+        var self = this;
+        cc.director.getScheduler().scheduleCallbackForTarget(sprite, function() {
+          self.clearDoubleTouching();
+        }, 1, 0);
       }
       this.lastTouchTimestamp = timestamp;
     };
