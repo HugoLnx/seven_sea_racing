@@ -10,10 +10,8 @@ Scenes.LoadingScene = (function() {
     var label2 = self._label2 = new cc.LabelTTF("0%", "Berlin Sans FB Regular", fontSize);
     label1.setColor(LABEL_COLOR);
     label2.setColor(LABEL_BACK_COLOR);
-    label1.enableStroke(cc.color(255,255,255), 3, true);
-    label2.enableStroke(cc.color(255,255,255), 3, true);
-    label1.setScale(0.2);
-    label2.setScale(0.22);
+    label1.setScale(0.23);
+    label2.setScale(0.25);
     var shadowOffset = 1;
     label1.setPosition({x: cc.winSize.width*0.507, y: cc.winSize.height*0.145});
     label2.setPosition({x: cc.winSize.width*0.507, y: cc.winSize.height*0.145+shadowOffset});
