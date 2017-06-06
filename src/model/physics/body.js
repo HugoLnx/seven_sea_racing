@@ -1,15 +1,24 @@
 Model.Physics.Body = function(width, height, isSolid, weight) {
-  this.acc = {x: 0, y: 0};
-  this.vel = {x: 0, y: 0};
   this.pos = {x: 0, y: 0};
+  this.vel = {x: 0, y: 0};
+  this.acc = {x: 0, y: 0};
   this.width = width;
   this.height = height;
   this.isSolid = isSolid;
   this.weight = weight;
   this.maxVel = 1000000000;
+  this.related = null;
+  this.destroyed = false;
 
-  this.x = function(){ return this.position().x; };
-  this.y = function(){ return this.position().y; };
+  this.x = function(value) {
+    if(value === undefined) return this.pos.x;
+    else this.pos.x = value;
+  };
+
+  this.y = function(value){
+    if(value === undefined) return this.pos.y;
+    else this.pos.y = value;
+  };
 
   this.attachTo = function(raceObject) {
     this.related = raceObject;
@@ -78,8 +87,7 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
     var diff = this.accelerationEffect(this.acc, deltaTime);
     if (diff.pos.x != 0 || diff.pos.y != 0) {
       var diffVec = Lib.Geometry.truncate(diff.pos, this.maxVelocity()*deltaTime);
-      this.pos.x += diffVec.x;
-      this.pos.y += diffVec.y;
+      this.position({x: this.x() + diffVec.x, y: this.y() + diffVec.y});
     }
 
     this.vel.x += diff.vel.x;
@@ -125,5 +133,13 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
     var noCollision = obj2IsAbove || obj2IsBelow || obj2IsAtLeft || obj2IsAtRight;
 
     return !noCollision;
+  };
+
+  this.destroy = function() {
+    this.destroyed = true;
+  };
+
+  this.wasDestroyed = function() {
+    return this.destroyed;
   };
 };
