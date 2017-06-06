@@ -8,7 +8,8 @@ var res = {
     background_png : "res/background.png",
     start_screen_background_png : "res/start_screen.png",
     start_screen_button_on_png : "res/start_screen_button_on.png",
-    start_screen_button_off_png : "res/start_screen_button_off.png"
+    start_screen_button_off_png : "res/start_screen_button_off.png",
+    game_over_screen_background_png : "res/game_over_screen.png"
 };
 
 var g_resources = [];
