@@ -24,6 +24,7 @@
         "src/sprites/enemy.js",
         "src/sprites/button.js",
         "src/sprites/weapon.js",
+        "src/sprites/collision_box.js",
         "src/sprites/cropped_full_background.js",
         "src/model/domain/race.js",
         "src/model/domain/racer.js",

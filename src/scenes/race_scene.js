@@ -13,15 +13,26 @@ Scenes.RaceScene = cc.Scene.extend({
     this.update(0);
     this.addChild(this.gameLayer, 0);
     this.addChild(this.hud, 1);
+    if(this.collisionBoxesActivated()) {
+      var bodies = Model.Physics.Universe.instance().bodies;
+      for(var i = 0; i<bodies.length; i++) {
+        Sprites.CollisionBox.createFor(bodies[i]);
+      }  
+    }
+    Sprites.CollisionBox.addAllTo(this.gameLayer, 2);
     this.scheduleUpdate();
   },
   update: function(dt) {
     this.race.update(dt);
     var weapon = this.race.racer.weapon;
-    console.log(weapon);
     this.hud.update(this.race.racer.health, weapon && weapon.sprite);
 
     var scenePosition = this.race.calculateCameraPosition();
     this.gameLayer.setPosition(scenePosition.x, scenePosition.y);
+
+    if(this.collisionBoxesActivated()) Sprites.CollisionBox.update();
+  },
+  collisionBoxesActivated: function() {
+    return document && document.location && document.location.href && document.location.href.includes("collisionBoxes");
   },
 });

@@ -67,9 +67,6 @@ Model.Domain.Turbo = (function() {
     var sprite = new Sprites.Weapon(res.weapon_turbo_png);
     var maxSide = Math.max(sprite.size().width*0.5, sprite.size().height*0.5);
     var body = new Model.Physics.Body(maxSide, maxSide, true, WEIGHT);
-    if(document && document.location && document.location.href && document.location.href.includes("collisionBoxes")) {
-      sprite.activateCollisionBox(body.size().width, body.size().height);
-    }
     body.position(position);
     Model.Physics.Universe.instance().add(body);
     var weapon = new M(body, sprite);
