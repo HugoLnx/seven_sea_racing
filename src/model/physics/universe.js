@@ -27,7 +27,7 @@ Model.Physics.Universe = (function() {
           var body1 = this.bodies[i];
           var body2 = this.bodies[j];
           if(body1.hasCollided(body2)) {
-            applyCollision(body1, body2);
+            applyCollision(body1, body2, deltaTime);
           }
         }
       }
@@ -79,29 +79,31 @@ Model.Physics.Universe = (function() {
     };
   };
 
-  function applyCollision(body1, body2) {
-    callCollisionCallbacks(body1, body2);
-    var posOnX = overlapEffect(body1.x(), body1.width , body1.weight, body2.x(), body2.width , body2.weight);
-    var posOnY = overlapEffect(body1.y(), body1.height, body1.weight, body2.y(), body2.height, body2.weight);
-    if(posOnX.movementAmount < posOnY.movementAmount) {
-      body1.x(posOnX.pos1);
-      body2.x(posOnX.pos2);
-    } else {
-      body1.y(posOnY.pos1);
-      body2.y(posOnY.pos2);
-    }
+  function applyCollision(body1, body2, deltaTime) {
+    callCollisionCallbacks(body1, body2, deltaTime);
+    if(body1.isSolid() && body2.isSolid()) {
+      var posOnX = overlapEffect(body1.x(), body1.width , body1.weight, body2.x(), body2.width , body2.weight);
+      var posOnY = overlapEffect(body1.y(), body1.height, body1.weight, body2.y(), body2.height, body2.weight);
+      if(posOnX.movementAmount < posOnY.movementAmount) {
+        body1.x(posOnX.pos1);
+        body2.x(posOnX.pos2);
+      } else {
+        body1.y(posOnY.pos1);
+        body2.y(posOnY.pos2);
+      }
 
-    var velsOnX = collisionVelocityEffect(body1.vel.x, body1.weight, body2.vel.x, body2.weight);
-    var velsOnY = collisionVelocityEffect(body1.vel.y, body1.weight, body2.vel.y, body2.weight);
-    body1.velocity({x: velsOnX.vel1, y: velsOnY.vel1});
-    body2.velocity({x: velsOnX.vel2, y: velsOnY.vel2});
+      var velsOnX = collisionVelocityEffect(body1.vel.x, body1.weight, body2.vel.x, body2.weight);
+      var velsOnY = collisionVelocityEffect(body1.vel.y, body1.weight, body2.vel.y, body2.weight);
+      body1.velocity({x: velsOnX.vel1, y: velsOnY.vel1});
+      body2.velocity({x: velsOnX.vel2, y: velsOnY.vel2});
+    }
   }
 
-  function callCollisionCallbacks(body1, body2) {
+  function callCollisionCallbacks(body1, body2, deltaTime) {
     var model1 = body1.related;
     var model2 = body2.related;
-    model1.onCollision && model1.onCollision(model2);
-    model2.onCollision && model2.onCollision(model1);
+    model1.onCollision && model1.onCollision(model2, deltaTime);
+    model2.onCollision && model2.onCollision(model1, deltaTime);
   }
 
   function collisionVelocityEffect(vel1, weight1, vel2, weight2) {

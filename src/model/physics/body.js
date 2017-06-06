@@ -1,10 +1,10 @@
-Model.Physics.Body = function(width, height, isSolid, weight) {
+Model.Physics.Body = function(width, height, solid, weight) {
   this.pos = {x: 0, y: 0};
   this.vel = {x: 0, y: 0};
   this.acc = {x: 0, y: 0};
   this.width = width;
   this.height = height;
-  this.isSolid = isSolid;
+  this.solid = solid;
   this.weight = weight;
   this.maxVel = 1000000000;
   this.related = null;
@@ -141,5 +141,9 @@ Model.Physics.Body = function(width, height, isSolid, weight) {
 
   this.wasDestroyed = function() {
     return this.destroyed;
+  };
+
+  this.isSolid = function() {
+    return this.solid;
   };
 };

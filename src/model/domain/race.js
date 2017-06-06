@@ -7,7 +7,7 @@ Model.Domain.Race = function(racer) {
     var racer = Model.Domain.Racer.build({x: 0.018*this.width, y: 0.37*this.height}, 0);
     var enemy = Model.Domain.Enemy.build({x: 0.2*this.width, y: 0.35*this.height}, 90);
     var turbo = Model.Domain.Turbo.build({x: 0.1*this.width, y: 0.4*this.height});
-    this.objects = [racer, enemy, turbo]
+    this.objects = [racer, enemy, turbo].concat(this.generateBadGrounds());
     this.racer = racer;
     var limits = this.calculateRacerLimits();
     Model.Physics.Universe.instance().setLimits(limits)
@@ -16,7 +16,9 @@ Model.Domain.Race = function(racer) {
   this.sprites = function() {
     var sprites = [];
     for(var i = 0; i<this.objects.length; i++) {
-      sprites.push(this.objects[i].sprite);
+      if(this.objects[i].sprite) {
+        sprites.push(this.objects[i].sprite);
+      }
     }
     return sprites;
   };
@@ -64,6 +66,12 @@ Model.Domain.Race = function(racer) {
         max: this.height/2,
       }
     };
+  };
+
+  this.generateBadGrounds = function() {
+    return [
+      Model.Domain.BadGround.build({x: 0.018*this.width, y: 0.37*this.height}, {width: 300, height: 300})
+    ];
   };
 
   this.init();
