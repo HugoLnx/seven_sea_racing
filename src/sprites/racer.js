@@ -1,7 +1,6 @@
 Sprites.Racer = cc.SpriteBatchNode.extend({
   COMMON_SPEED_RANGE: [0.06, 0.12],
   TURBO_SPEED_RANGE: [0.02, 0.10],
-  SWIMMING_ANIMATION_TAG: "horsefish-swimming",
   rectangle: null,
   recoveringAnimation: false,
   recoveringBlinkDuration: 0,
