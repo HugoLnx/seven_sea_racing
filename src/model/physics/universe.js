@@ -11,7 +11,7 @@ Model.Physics.Universe = (function() {
 
     this.applyFriction = function(deltaTime) {
       for(var i = 0; i<this.bodies.length; i++) {
-        this.bodies[i].applyFriction(300, deltaTime);
+        this.bodies[i].applyFrictionForce(600000, deltaTime);
       }
     };
 
@@ -27,7 +27,7 @@ Model.Physics.Universe = (function() {
           var body1 = this.bodies[i];
           var body2 = this.bodies[j];
           if(body1.hasCollided(body2)) {
-            applyCollision(body1, body2);
+            applyCollision(body1, body2, deltaTime);
           }
         }
       }
@@ -50,57 +50,60 @@ Model.Physics.Universe = (function() {
         }
       }  
       if(inx !== null) {
-        this.bodies.splice(inx, 1);
+        var body = this.bodies.splice(inx, 1)[0];
+        body.destroy();
       }
     }
 
     this.ensureUniverseLimits = function(body) {
-      if(body.pos.x < this.minX) {
-        body.pos.x = this.minX;
+      if(body.x() < this.minX) {
+        body.x(this.minX);
         body.acc.x = 0;
         body.vel.x = 0;
       }
-      if(body.pos.x > this.maxX) {
-        body.pos.x = this.maxX;
+      if(body.x() > this.maxX) {
+        body.x(this.maxX);
         body.acc.x = 0;
         body.vel.x = 0;
       }
-      if(body.pos.y < this.minY) {
-        body.pos.y = this.minY;
+      if(body.y() < this.minY) {
+        body.y(this.minY);
         body.acc.y = 0;
         body.vel.y = 0;
       }
-      if(body.pos.y > this.maxY) {
-        body.pos.y = this.maxY;
+      if(body.y() > this.maxY) {
+        body.y(this.maxY);
         body.acc.y = 0;
         body.vel.y = 0;
       }
     };
   };
 
-  function applyCollision(body1, body2) {
-    callCollisionCallbacks(body1, body2);
-    var posOnX = overlapEffect(body1.pos.x, body1.width , body1.weight, body2.pos.x, body2.width , body2.weight);
-    var posOnY = overlapEffect(body1.pos.y, body1.height, body1.weight, body2.pos.y, body2.height, body2.weight);
-    if(posOnX.movementAmount < posOnY.movementAmount) {
-      body1.pos.x = posOnX.pos1;
-      body2.pos.x = posOnX.pos2;
-    } else {
-      body1.pos.y = posOnY.pos1;
-      body2.pos.y = posOnY.pos2;
-    }
+  function applyCollision(body1, body2, deltaTime) {
+    callCollisionCallbacks(body1, body2, deltaTime);
+    if(body1.isSolid() && body2.isSolid()) {
+      var posOnX = overlapEffect(body1.x(), body1.width , body1.weight, body2.x(), body2.width , body2.weight);
+      var posOnY = overlapEffect(body1.y(), body1.height, body1.weight, body2.y(), body2.height, body2.weight);
+      if(posOnX.movementAmount < posOnY.movementAmount) {
+        body1.x(posOnX.pos1);
+        body2.x(posOnX.pos2);
+      } else {
+        body1.y(posOnY.pos1);
+        body2.y(posOnY.pos2);
+      }
 
-    var velsOnX = collisionVelocityEffect(body1.vel.x, body1.weight, body2.vel.x, body2.weight);
-    var velsOnY = collisionVelocityEffect(body1.vel.y, body1.weight, body2.vel.y, body2.weight);
-    body1.velocity({x: velsOnX.vel1, y: velsOnY.vel1});
-    body2.velocity({x: velsOnX.vel2, y: velsOnY.vel2});
+      var velsOnX = collisionVelocityEffect(body1.vel.x, body1.weight, body2.vel.x, body2.weight);
+      var velsOnY = collisionVelocityEffect(body1.vel.y, body1.weight, body2.vel.y, body2.weight);
+      body1.velocity({x: velsOnX.vel1, y: velsOnY.vel1});
+      body2.velocity({x: velsOnX.vel2, y: velsOnY.vel2});
+    }
   }
 
-  function callCollisionCallbacks(body1, body2) {
+  function callCollisionCallbacks(body1, body2, deltaTime) {
     var model1 = body1.related;
     var model2 = body2.related;
-    model1.onCollision && model1.onCollision(model2);
-    model2.onCollision && model2.onCollision(model1);
+    model1.onCollision && model1.onCollision(model2, deltaTime);
+    model2.onCollision && model2.onCollision(model1, deltaTime);
   }
 
   function collisionVelocityEffect(vel1, weight1, vel2, weight2) {

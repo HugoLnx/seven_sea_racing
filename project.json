@@ -24,17 +24,23 @@
         "src/sprites/enemy.js",
         "src/sprites/button.js",
         "src/sprites/weapon.js",
+        "src/sprites/collision_box.js",
         "src/sprites/cropped_full_background.js",
         "src/model/domain/race.js",
         "src/model/domain/racer.js",
         "src/model/domain/enemy.js",
         "src/model/domain/turbo.js",
+        "src/model/domain/bad_ground.js",
         "src/layers/race_layer.js",
         "src/layers/hud.js",
         "src/scenes/race_scene.js",
         "src/scenes/start_scene.js",
+<<<<<<< HEAD
         "src/scenes/loading_scene.js",
         "src/scenes/game_over_scene.js",
         "src/globals.js"
+=======
+        "src/scenes/loading_scene.js"
+>>>>>>> fd1079e86528c0388b48e901ebbbd896c2ef6d5c
     ]
 }

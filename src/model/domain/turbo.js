@@ -12,7 +12,7 @@ Model.Domain.Turbo = (function() {
       var doubleTouchPosition = Model.Controls.instance().doubleTouching();
       if(doubleTouchPosition !== null && this._owner && this._state == "grabbed") {
         this._state = "active";
-        this._ownerUsualParams = {acceleration: this._owner.acceleration, maxVelocity: this._owner.body.maxVelocity()};
+        this._ownerUsualParams = {absoluteForce: this._owner.absoluteForce, maxVelocity: this._owner.body.maxVelocity(), maxAcceleration: this._owner.body.maxAcceleration()};
         this._ownerPace(2);
         var self = this;
         cc.director.getScheduler().scheduleCallbackForTarget(this._owner.sprite, function() {
@@ -67,9 +67,6 @@ Model.Domain.Turbo = (function() {
     var sprite = new Sprites.Weapon(res.weapon_turbo_png);
     var maxSide = Math.max(sprite.size().width*0.5, sprite.size().height*0.5);
     var body = new Model.Physics.Body(maxSide, maxSide, true, WEIGHT);
-    if(document && document.location && document.location.href && document.location.href.includes("collisionBoxes")) {
-      sprite.activateCollisionBox(body.size().width, body.size().height);
-    }
     body.position(position);
     Model.Physics.Universe.instance().add(body);
     var weapon = new M(body, sprite);

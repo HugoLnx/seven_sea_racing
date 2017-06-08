@@ -1,7 +1,6 @@
 Sprites.Racer = cc.SpriteBatchNode.extend({
   COMMON_SPEED_RANGE: [0.06, 0.12],
   TURBO_SPEED_RANGE: [0.02, 0.10],
-  SWIMMING_ANIMATION_TAG: "horsefish-swimming",
   rectangle: null,
   recoveringAnimation: false,
   recoveringBlinkDuration: 0,
@@ -88,17 +87,5 @@ Sprites.Racer = cc.SpriteBatchNode.extend({
   },
   size: function() {
     return {width: this.sprite.width * this.getScale(), height: this.sprite.height * this.getScale()};
-  },
-  activateCollisionBox: function(width, height) {
-    var COLORS = [cc.color(255,0,0,128), cc.color(0,255,0,128), cc.color(0,0,255,128), cc.color(0,255,255,128), cc.color(255,255,0,128)];
-    var colorI = Math.floor(Math.random(new Date())*5);
-    var width = width / this.getScaleX();
-    var height = height / this.getScaleY();
-    this.rectangle = cc.DrawNode.create();
-    this.sprite.addChild(this.rectangle);
-    this.rectangle.clear();
-    this.rectangle.setPosition(this.sprite.width/2,this.sprite.height/2);
-    this.rectangle.drawRect(new cc.Point(-width/2,-height/2), new cc.Point(width/2,height/2),
-                            COLORS[colorI], 3, COLORS[(colorI+1)%5]);
   }
 });
