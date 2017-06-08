@@ -12,7 +12,7 @@ Layers.RaceLayer = cc.Layer.extend({
   },
   createBackground: function(race) {
     var bgSprite = new Sprites.CroppedFullBackground(res.background_png, {width: race.width, height: race.height});
-    bgSprite.setPosition(cc.winSize.width/2, cc.winSize.height/2);
+    bgSprite.setPosition(0, 0);
     return bgSprite;
   }
 });

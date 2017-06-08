@@ -4,9 +4,9 @@ Model.Domain.Race = function(racer) {
   this.currentFrame = 0;
 
   this.init = function() {
-    var racer = Model.Domain.Racer.build({x: 0.018*this.width, y: 0.37*this.height}, 0);
-    var enemy = Model.Domain.Enemy.build({x: 0.2*this.width, y: 0.35*this.height}, 90);
-    var turbo = Model.Domain.Turbo.build({x: 0.1*this.width, y: 0.4*this.height});
+    var racer = Model.Domain.Racer.build({x: 0.00*this.width, y: 0.28*this.height}, 0);
+    var enemy = Model.Domain.Enemy.build({x: 0.20*this.width, y: 0.19*this.height}, 90);
+    var turbo = Model.Domain.Turbo.build({x: 0.10*this.width, y: 0.35*this.height});
     this.objects = [racer, enemy, turbo].concat(this.generateBadGrounds());
     this.racer = racer;
     var limits = this.calculateRacerLimits();
@@ -70,7 +70,7 @@ Model.Domain.Race = function(racer) {
 
   this.generateBadGrounds = function() {
     return [
-      Model.Domain.BadGround.build({x: 0.018*this.width, y: 0.37*this.height}, {width: 300, height: 300})
+      Model.Domain.BadGround.build({x: -this.width/2.0, y: 0}, {width: this.width*0.6, height: this.height})
     ];
   };
 

@@ -29,6 +29,7 @@ Scenes.RaceScene = cc.Scene.extend({
 
     var scenePosition = this.race.calculateCameraPosition();
     this.gameLayer.setPosition(scenePosition.x, scenePosition.y);
+    //this.gameLayer.setScale(0.12, 0.12);
 
     if(this.collisionBoxesActivated()) Sprites.CollisionBox.update();
   },
