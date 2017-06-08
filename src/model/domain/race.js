@@ -58,12 +58,12 @@ Model.Domain.Race = function(racer) {
   this.calculateRacerLimits = function() {
     return {
       x: {
-        min: -this.width/2+cc.winSize.width,
-        max: this.width/2,
+        min: -this.width/2+cc.winSize.width/2,
+        max: this.width/2-cc.winSize.width/2,
       },
       y: {
-        min: -this.height/2+cc.winSize.height,
-        max: this.height/2,
+        min: -this.height/2+cc.winSize.height/2,
+        max: this.height/2-cc.winSize.height/2,
       }
     };
   };
