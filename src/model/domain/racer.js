@@ -1,6 +1,7 @@
 Model.Domain.Racer = (function() {
-  var ACCELERATION =  450;
-  var MAX_VELOCITY =  400;
+  var USUAL_RUN_FORCE =  630000;
+  var MAX_VELOCITY =     400;
+  var MAX_ACCELERATION = 60000;
   var WEIGHT = 20;
   var M = function(body, sprite, initialDirection) {
     this.type = "racer";
@@ -10,23 +11,28 @@ Model.Domain.Racer = (function() {
     this.maxHealth = 5;
     this.health = this.maxHealth;
     this.weapon = null;
-    Model.Controls.instance(sprite);
-    this.acceleration = ACCELERATION;
+    this.absoluteForce = USUAL_RUN_FORCE;
     this.direction = initialDirection;
     var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
+    var acctime = 0;
 
     this.behave = function(frame, deltaTime) {
+      acctime += deltaTime;
+      if(acctime >= 1) {
+        console.log(this.body.pos, this.body.vel, this.body.acc);
+        acctime = 0;
+      }
       var ROTATION_SPEED_DEGREES_PER_SECOND = 180;
 
       if(this.weapon && this.weapon.wasUsed()) {
         this.weapon = null;
       }
 
-      var touchPosition = Model.Controls.instance().touching();
-      if(touchPosition === null) {
-        this.body.acceleration({x: 0, y: 0});
+      if(!this.isAccelerating()) {
         return true;
       };
+      var touchPosition = Model.Controls.instance().touching();
+
       var middle = {x: cc.winSize.width/2, y: cc.winSize.height/2};
       var touchVector = {x: touchPosition.x - middle.x, y: touchPosition.y - middle.y};
       var angleDistance = this.direction - Lib.Geometry.angle(touchVector);
@@ -41,13 +47,12 @@ Model.Domain.Racer = (function() {
         this.direction = Lib.Geometry.angle(touchVector);
       }
 
-      this.body.acceleration(Lib.Geometry.toVector(this.direction, this.acceleration));
+      this.body.applyForce(Lib.Geometry.toVector(this.direction, this.absoluteForce), deltaTime);
       return true;
     };
 
     this.update = function(deltaTime) {
-      var isOnTurbo = this.weapon && this.weapon.weaponType() == "turbo" && this.weapon.isActive();
-      this.sprite.update(this.body.x(), this.body.y(), this.direction, this.body.velocityModulePercentage(), isOnTurbo, deltaTime);
+      this.sprite.update(this.body.x(), this.body.y(), this.direction, this.body.velocityModulePercentage(), this.isOnTurbo(), deltaTime);
       return true;
     };
 
@@ -75,6 +80,15 @@ Model.Domain.Racer = (function() {
         }, 5, 0);
       }
     }
+
+    this.isAccelerating = function() {
+      var touchPosition = Model.Controls.instance().touching();
+      return touchPosition !== null;
+    };
+
+    this.isOnTurbo = function() {
+      return this.weapon && this.weapon.weaponType() == "turbo" && this.weapon.isActive();
+    };
   }
 
   M.build = function(position, initialDirection) {
@@ -83,6 +97,7 @@ Model.Domain.Racer = (function() {
     var body = new Model.Physics.Body(maxSide, maxSide, true, WEIGHT);
     body.position(position);
     body.maxVelocity(MAX_VELOCITY);
+    body.maxAcceleration(MAX_ACCELERATION);
     Model.Physics.Universe.instance().add(body);
     var racer = new M(body, sprite, initialDirection);
     body.attachTo(racer);

@@ -8,7 +8,17 @@ Model.Domain.BadGround = (function() {
 
   M.prototype.onCollision = function(model, deltaTime) {
     if(model.type === "racer") {
-      //model.body.applyFriction(150, deltaTime);
+      if(model.isOnTurbo()) {
+        var maxVelocityOnBadGround = model.body.maxVelocity()*0.75;
+      } else {
+        var maxVelocityOnBadGround = model.body.maxVelocity()/3;
+      }
+      if(model.isAccelerating()) {
+        model.body.applyVelocityFrictionForce(10000000, deltaTime, maxVelocityOnBadGround);
+      } else {
+        model.body.applyVelocityFrictionForce(maxVelocityOnBadGround/10, deltaTime);
+      }
+      model.body.applyAccelerationFrictionForce(600000, deltaTime);
     }
   };
 

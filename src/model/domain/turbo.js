@@ -12,7 +12,7 @@ Model.Domain.Turbo = (function() {
       var doubleTouchPosition = Model.Controls.instance().doubleTouching();
       if(doubleTouchPosition !== null && this._owner && this._state == "grabbed") {
         this._state = "active";
-        this._ownerUsualParams = {acceleration: this._owner.acceleration, maxVelocity: this._owner.body.maxVelocity()};
+        this._ownerUsualParams = {absoluteForce: this._owner.absoluteForce, maxVelocity: this._owner.body.maxVelocity(), maxAcceleration: this._owner.body.maxAcceleration()};
         this._ownerPace(2);
         var self = this;
         cc.director.getScheduler().scheduleCallbackForTarget(this._owner.sprite, function() {
