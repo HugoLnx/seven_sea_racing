@@ -49,21 +49,15 @@ Model.Domain.Race = function(racer) {
     }
   };
 
-  this.calculateCameraPosition = function() {
-    var x = cc.winSize.width/2-this.racer.body.x();
-    var y = cc.winSize.height/2-this.racer.body.y();
-    return {x: x, y: y};
-  }
-
   this.calculateRacerLimits = function() {
     return {
       x: {
-        min: -this.width/2+cc.winSize.width/2,
-        max: this.width/2-cc.winSize.width/2,
+        min: -this.width/2,
+        max: this.width/2,
       },
       y: {
-        min: -this.height/2+cc.winSize.height/2,
-        max: this.height/2-cc.winSize.height/2,
+        min: -this.height/2,
+        max: this.height/2,
       }
     };
   };

@@ -27,9 +27,7 @@ Scenes.RaceScene = cc.Scene.extend({
     var weapon = this.race.racer.weapon;
     this.hud.update(this.race.racer.health, weapon && weapon.sprite);
 
-    var scenePosition = this.race.calculateCameraPosition();
-    this.gameLayer.setPosition(scenePosition.x, scenePosition.y);
-    //this.gameLayer.setScale(0.12, 0.12);
+    var scenePosition = this.gameLayer.cameraFollow(this.race.racer.body.position());
 
     if(this.collisionBoxesActivated()) Sprites.CollisionBox.update();
   },
