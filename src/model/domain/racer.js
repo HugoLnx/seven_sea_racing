@@ -1,5 +1,5 @@
 Model.Domain.Racer = (function() {
-  var USUAL_RUN_FORCE =  630000;
+  var USUAL_RUN_FORCE =  607500;
   var MAX_VELOCITY =     300;
   var MAX_ACCELERATION = 60000;
   var WEIGHT = 20;
