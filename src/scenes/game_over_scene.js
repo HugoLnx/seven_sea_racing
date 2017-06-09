@@ -7,14 +7,59 @@ Scenes.GameOverScene = cc.Scene.extend({
     backgroundLayer.init();
     this.addChild(backgroundLayer);
 
+    //LAYER DOS PEIXES AO FUNDO
+    var backgroundFishes = new fishes();
+    backgroundFishes.init();
+    this.addChild(backgroundFishes);
+
+    //LAYER DO PERSONAGEM
     var characterLayer = new character();
     characterLayer.init();
     this.addChild(characterLayer);
 
+    //LAYER DO TEXTO E BOTÃO
     var infoLayer = new info();
     infoLayer.init();
     this.addChild(infoLayer);
   }
+});
+
+var fishes = cc.Layer.extend({
+  spriteSheet:null,
+  swimmingAction:null,
+  sprite:null,
+  ctor: function() {
+    this._super();
+  },
+  init: function() {
+    this._super();
+
+    cc.spriteFrameCache.addSpriteFrames(res.horsefish_plist);
+    this.spriteSheet = new cc.SpriteBatchNode(res.horsefish_png);
+    this.addChild(this.spriteSheet);
+
+    var frames = [];
+    for (var i = 1; i < 6; i++) {
+      var string = 'horsefish0' + i + ".png";
+      var frame = cc.spriteFrameCache.getSpriteFrame(string);
+      frames.push(frame);
+    }
+    for (var i = 4; i > 1; i--) {
+      var string = 'horsefish0' + i + ".png";
+      var frame = cc.spriteFrameCache.getSpriteFrame(string);
+      frames.push(frame);
+    }
+
+    var swimmingAnimation = new cc.Animation(frames, 0.1);
+    this.swimmingAction = new cc.RepeatForever(new cc.Animate(swimmingAnimation));
+
+    this.sprite = new cc.Sprite("#horsefish01.png");
+    this.sprite.attr({x:10, y:10});
+    this.sprite.runAction(this.swimmingAction)
+    this.setScale(0.25, 0.25);;
+    this.spriteSheet.addChild(this.sprite);
+  }
+
 });
 
 var gameOverBackground = cc.Layer.extend({
