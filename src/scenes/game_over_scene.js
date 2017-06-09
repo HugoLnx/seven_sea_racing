@@ -51,13 +51,20 @@ var fishes = cc.Layer.extend({
     }
 
     var swimmingAnimation = new cc.Animation(frames, 0.1);
+
+    var winsize = cc.director.getWinSize();
+
     this.swimmingAction = new cc.RepeatForever(new cc.Animate(swimmingAnimation));
 
     this.sprite = new cc.Sprite("#horsefish01.png");
-    this.sprite.attr({x:10, y:10});
+    this.sprite.setPosition(-2 * winsize.width, 0);
     this.sprite.runAction(this.swimmingAction)
     this.setScale(0.25, 0.25);;
     this.spriteSheet.addChild(this.sprite);
+
+    var actionMove = cc.MoveTo.create(1, cc.p(2 * winsize.width + this.sprite.width + 10, 0));
+
+    this.sprite.runAction(actionMove);
   }
 
 });
