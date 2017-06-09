@@ -3,6 +3,7 @@ Model.Domain.Race = function(stage) {
 
   this.init = function() {
     this.racer = stage.objects().racer;
+    this.timeLeft = stage.timeLimitSeconds;
     this.width = stage.width;
     this.height = stage.height;
     this.objects = [this.racer].concat(stage.objects().others);
@@ -15,6 +16,7 @@ Model.Domain.Race = function(stage) {
   };
 
   this.update = function(deltaTime) {
+    this.timeLeft -= deltaTime;
     this.currentFrame++;
 
     Model.Physics.Universe.instance().applyFriction(deltaTime);

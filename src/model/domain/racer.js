@@ -19,7 +19,6 @@ Model.Domain.Racer = (function() {
     this.behave = function(frame, deltaTime) {
       acctime += deltaTime;
       if(acctime >= 1) {
-        console.log(this.body.pos, this.body.vel, this.body.acc);
         acctime = 0;
       }
       var ROTATION_SPEED_DEGREES_PER_SECOND = 180;

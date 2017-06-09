@@ -5,16 +5,8 @@ Scenes.LoadingScene = (function() {
   var LABEL_BACK_COLOR = cc.color(255, 131, 0);
   M.prototype.init = function(){
     var self = this;
-    var fontSize = 150;
-    var label1 = self._label = self._label1 = new cc.LabelTTF("0%", "Berlin Sans FB Regular", fontSize);
-    var label2 = self._label2 = new cc.LabelTTF("0%", "Berlin Sans FB Regular", fontSize);
-    label1.setColor(LABEL_COLOR);
-    label2.setColor(LABEL_BACK_COLOR);
-    label1.setScale(0.23);
-    label2.setScale(0.25);
-    var shadowOffset = 1;
-    label1.setPosition({x: cc.winSize.width*0.507, y: cc.winSize.height*0.145});
-    label2.setPosition({x: cc.winSize.width*0.507, y: cc.winSize.height*0.145+shadowOffset});
+    var label = self._label = new Sprites.RegularLabel(37.5);
+    label.setPosition({x: cc.winSize.width*0.507, y: cc.winSize.height*0.145});
 
     //logo
     var logoWidth = 160;
@@ -37,8 +29,7 @@ Scenes.LoadingScene = (function() {
     }
     cc.loader.loadImg("res/BerlinSansFBBold.ttf", {isCrossOrigin : false}, function() {
       //loading percent
-      bgLayer.addChild(label2, 20);
-      bgLayer.addChild(label1, 25);
+      bgLayer.addChild(label, 20);
     });
     return true;
   };
@@ -51,8 +42,7 @@ Scenes.LoadingScene = (function() {
       function (result, count, loadedCount) {
         var percent = (loadedCount / count * 100) | 0;
         percent = Math.min(percent, 100);
-        self._label1.setString("" + percent + "%");
-        self._label2.setString("" + percent + "%");
+        self._label.setString("" + percent + "%");
       }, function () {
         if (self.cb)
           self.cb.call(self.target);

@@ -26,7 +26,7 @@ Scenes.RaceScene = cc.Scene.extend({
   update: function(dt) {
     this.race.update(dt);
     var weapon = this.race.racer.weapon;
-    this.hud.update(this.race.racer.health, weapon && weapon.sprite);
+    this.hud.update(this.race.racer.health, weapon && weapon.sprite, this.race.timeLeft);
 
     var scenePosition = this.gameLayer.cameraFollow(this.race.racer.body.position());
 
