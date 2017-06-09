@@ -17,6 +17,7 @@
         "lib/math.js",
         "src/init.js",
         "src/resource.js",
+        "src/model/stages/stage1.js",
         "src/model/controls.js",
         "src/model/physics/body.js",
         "src/model/physics/universe.js",

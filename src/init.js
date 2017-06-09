@@ -1,6 +1,7 @@
 Model = {
   Domain: {},
-  Physics: {}
+  Physics: {},
+  Stages: {}
 };
 
 Layers = {};

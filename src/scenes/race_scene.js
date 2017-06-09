@@ -1,11 +1,12 @@
 Scenes.RaceScene = cc.Scene.extend({
   race: null,
   onEnter: function() {
+    var stage = Model.Stages.Stage1;
     this._super();
-    this.race = new Model.Domain.Race();
+    this.race = new Model.Domain.Race(stage);
 
     this.gameLayer = new Layers.RaceLayer();
-    this.gameLayer.init(this.race);
+    this.gameLayer.init(stage);
     Model.Controls.resetInstance();
     Model.Controls.instance(this.gameLayer.bgSprite);
     this.hud = new Layers.HUD();

@@ -1,26 +1,13 @@
-Model.Domain.Race = function(racer) {
-  this.width = 3252;
-  this.height = 1816;
+Model.Domain.Race = function(stage) {
   this.currentFrame = 0;
 
   this.init = function() {
-    var racer = Model.Domain.Racer.build({x: 0.00*this.width, y: 0.28*this.height}, 0);
-    var enemy = Model.Domain.Enemy.build({x: 0.20*this.width, y: 0.19*this.height}, 90);
-    var turbo = Model.Domain.Turbo.build({x: 0.10*this.width, y: 0.35*this.height});
-    this.objects = [racer, enemy, turbo].concat(this.generateBadGrounds());
-    this.racer = racer;
+    this.racer = stage.objects().racer;
+    this.width = stage.width;
+    this.height = stage.height;
+    this.objects = [this.racer].concat(stage.objects().others);
     var limits = this.calculateRacerLimits();
     Model.Physics.Universe.instance().setLimits(limits)
-  };
-
-  this.sprites = function() {
-    var sprites = [];
-    for(var i = 0; i<this.objects.length; i++) {
-      if(this.objects[i].sprite) {
-        sprites.push(this.objects[i].sprite);
-      }
-    }
-    return sprites;
   };
 
   this.add = function(obj) {
@@ -60,12 +47,6 @@ Model.Domain.Race = function(racer) {
         max: this.height/2,
       }
     };
-  };
-
-  this.generateBadGrounds = function() {
-    return [
-      Model.Domain.BadGround.build({x: -this.width/2.0, y: 0}, {width: this.width*0.6, height: this.height})
-    ];
   };
 
   this.init();

@@ -1,10 +1,9 @@
 Layers.RaceLayer = cc.Layer.extend({
   bgSprite: null,
-  init: function(race) {
+  init: function(stage) {
     this._super();
-    this.race = race;
-    var sprites = race.sprites();
-    var bgSprite = this.createBackground(race);
+    var sprites = stage.sprites();
+    var bgSprite = this.createBackground(stage);
     this.setScale(this.scale(), this.scale());
     this.addChild(bgSprite, 0);
     for(var i = 0; i<sprites.length; i++) {
@@ -12,8 +11,8 @@ Layers.RaceLayer = cc.Layer.extend({
     }  
     this.bgSprite = bgSprite;
   },
-  createBackground: function(race) {
-    var bgSprite = new Sprites.CroppedFullBackground(res.background_png, {width: race.width, height: race.height});
+  createBackground: function(stage) {
+    var bgSprite = new Sprites.CroppedFullBackground(stage.background(), {width: stage.width, height: stage.height});
     bgSprite.setPosition(0, 0);
     return bgSprite;
   },
