@@ -7,15 +7,15 @@ Model.Stages.Stage1 = {
     return [
       {
         image: res.background_layer5_png,
-        scale: 1.3
+        scale: 1.05
       },
       {
         image: res.background_layer3_png,
-        scale: 1.2
+        scale: 1.025
       },
       {
         image: res.background_layer4_png,
-        scale: 1.1
+        scale: 1.01
       }
     ];
   },
