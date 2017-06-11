@@ -5,10 +5,7 @@ Sprites.CollisionBox = (function() {
     this.rect = cc.DrawNode.create();
 
     var colorI = Math.floor(Math.random(new Date())*5);
-    this.rect.clear();
-    this.rect.setPosition(body.x(), body.y());
-    this.rect.drawRect(new cc.Point(-body.width/2,-body.height/2), new cc.Point(body.width/2,body.height/2),
-                            COLORS[colorI], 3, COLORS[(colorI+1)%COLORS.length]);
+    this.colorI = colorI;
   };
 
   M._boxes = [];
@@ -39,7 +36,12 @@ Sprites.CollisionBox = (function() {
       this.rect.removeFromParent();
       return false;
     } else {
-      this.rect.setPosition(this.body.x(), this.body.y());
+      var body = this.body;
+      this.rect.setPosition(body.x(), body.y());
+      this.rect.clear();
+      this.rect.setPosition(body.x(), body.y());
+      this.rect.drawRect(new cc.Point(-body.width/2,-body.height/2), new cc.Point(body.width/2,body.height/2),
+                              COLORS[this.colorI], 3, COLORS[(this.colorI+1)%COLORS.length]);
       return true;
     }
   };

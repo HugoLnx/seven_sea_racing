@@ -20,7 +20,7 @@ Scenes.RaceScene = cc.Scene.extend({
         Sprites.CollisionBox.createFor(bodies[i]);
       }  
     }
-    Sprites.CollisionBox.addAllTo(this.gameLayer, 2);
+    Sprites.CollisionBox.addAllTo(this.gameLayer, 100);
     this.scheduleUpdate();
   },
   update: function(dt) {
