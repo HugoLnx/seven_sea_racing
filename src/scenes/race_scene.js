@@ -8,7 +8,7 @@ Scenes.RaceScene = cc.Scene.extend({
     this.gameLayer = new Layers.RaceLayer();
     this.gameLayer.init(stage);
     Model.Controls.resetInstance();
-    Model.Controls.instance(this.gameLayer.bgSprite);
+    Model.Controls.instance(this.gameLayer.trackSprite);
     this.hud = new Layers.HUD();
     this.hud.init(this.race.racer.maxHealth);
     this.update(0);

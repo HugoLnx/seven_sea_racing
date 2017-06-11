@@ -1,20 +1,28 @@
 Layers.RaceLayer = cc.Layer.extend({
-  bgSprite: null,
+  trackSprite: null,
   init: function(stage) {
     this._super();
     var sprites = stage.sprites();
-    var bgSprite = this.createBackground(stage);
+    var trackSprite = this.createBackgroundTrack(stage);
+    var seaSprite = this.createBackgroundSea(stage);
     this.setScale(this.scale(), this.scale());
-    this.addChild(bgSprite, 0);
+    this.addChild(seaSprite, 0);
+    this.addChild(trackSprite, 1);
     for(var i = 0; i<sprites.length; i++) {
-      this.addChild(sprites[i], 1);
+      this.addChild(sprites[i], 2);
     }  
-    this.bgSprite = bgSprite;
+    this.trackSprite = trackSprite;
   },
-  createBackground: function(stage) {
-    var bgSprite = new Sprites.CroppedFullBackground(stage.background(), {width: stage.width, height: stage.height});
-    bgSprite.setPosition(0, 0);
-    return bgSprite;
+  createBackgroundTrack: function(stage) {
+    var sprite = new Sprites.NonCroppedFullBackground(stage.background_track(), {width: stage.width, height: stage.height});
+    sprite.setPosition(0, 0);
+    return sprite;
+  },
+  createBackgroundSea: function(stage) {
+    var backMinSize = {width: stage.width+cc.winSize.width*2, height: stage.height+cc.winSize.height*2};
+    var sprite = new Sprites.CroppedFullBackground(stage.background_sea(), backMinSize);
+    sprite.setPosition(0, 0);
+    return sprite;
   },
   scale: function() {
     return 0.5; // 0.12;
