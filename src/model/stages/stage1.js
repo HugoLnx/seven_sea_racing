@@ -3,7 +3,22 @@ Model.Stages.Stage1 = {
   height: 1816,
   timeLimitSeconds: 3*60,
   background_track: function(){return res.background_track_png;},
-  background_sea: function(){return res.background_sea_png;},
+  background_layers: function(){
+    return [
+      {
+        image: res.background_layer5_png,
+        scale: 1.3
+      },
+      {
+        image: res.background_layer3_png,
+        scale: 1.2
+      },
+      {
+        image: res.background_layer4_png,
+        scale: 1.1
+      }
+    ];
+  },
   objects: function() {
     this.objs = this.objs || {
       racer: Model.Domain.Racer.build({x: 0.00*this.width, y: 0.28*this.height}, 0),
