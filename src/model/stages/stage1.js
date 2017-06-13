@@ -7,15 +7,15 @@ Model.Stages.Stage1 = {
     return [
       {
         image: res.background_layer5_png,
-        scale: 1.05
+        scale: 1.01
       },
       {
         image: res.background_layer3_png,
-        scale: 1.025
+        scale: 1.05
       },
       {
         image: res.background_layer4_png,
-        scale: 1.01
+        scale: 1.02
       }
     ];
   },
@@ -27,14 +27,14 @@ Model.Stages.Stage1 = {
         Model.Domain.Turbo.build({x: 0.10*this.width, y: 0.35*this.height}),
 
         Model.Domain.BadGround.build({x: 0, y: this.height*0.45}, {width: this.width, height: this.height*0.15}),
-        Model.Domain.BadGround.build({x: -this.width*0.2,  y: this.height*0.1}, {width: this.width*0.2, height: this.height*0.7}),
+        Model.Domain.BadGround.build({x: -this.width*0.2,  y: this.height*0.23}, {width: this.width*0.2, height: this.height*0.7}),
         Model.Domain.BadGround.build({x: -this.width*0.19, y: this.height*0.23},{width: this.width*0.23, height: this.height*0.65}),
         Model.Domain.BadGround.build({x:  this.width*0.15, y: this.height*0.1}, {width: this.width*0.5 , height: this.height*0.14}),
         Model.Domain.BadGround.build({x: -this.width*0.1,  y:-this.height*0.01},{width: this.width*0.25, height: this.height*0.36})
       ]
     };
-    s = this;
-    bad = this.objs.others[2].body;
+    stage = this;
+    bad = this.objs.others[3];
     return this.objs;
   },
   allObjects: function() {
