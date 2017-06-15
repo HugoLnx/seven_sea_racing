@@ -40,6 +40,9 @@ Layers.RaceLayer = cc.Layer.extend({
   size: function() {
     return {width: this.width*this.scale(), height: this.height*scale()};
   },
+  toCenter: function() {
+    this.setPosition(-cc.winSize.width*(1-this.scale())/2+cc.winSize.width/2, -cc.winSize.height*(1-this.scale())/2+cc.winSize.height/2);
+  },
   cameraFollow: function(position) {
     var cameraPosition = this.calculateCameraPositionFor(position);
     this.setPosition(cameraPosition.x, cameraPosition.y);
