@@ -1,9 +1,18 @@
 Model.Controls = (function() {
+  var KEYS = {
+    "esc" : 27,
+    "ctrl" : 17,
+    "space" : 32,
+    "enter" : 13,
+    "a" : 65,
+  };
   var M = function(sprite) {
     var controls = this;
     this.touchPosition = null;
     this.doubleTouch = null;
     this.lastTouchTimestamp = null;
+    this.keysPressing = {};
+    this.mousePosition = null;
     this.listener = cc.EventListener.create({
       event: cc.EventListener.TOUCH_ONE_BY_ONE,
       swallowTouches: true,
@@ -20,6 +29,29 @@ Model.Controls = (function() {
       }
     });
     cc.eventManager.addListener(this.listener, sprite);
+
+    if( 'keyboard' in cc.sys.capabilities ) {
+      var listener = cc.EventListener.create({
+        event: cc.EventListener.KEYBOARD,
+        onKeyPressed: function(key, event) {
+          controls.keysPressing[key] = true;
+        },
+        onKeyReleased: function(key, event) {
+          controls.keysPressing[key] = false;
+        },
+      });
+      cc.eventManager.addListener(listener, sprite);
+    }
+
+    if( 'mouse' in cc.sys.capabilities ) {
+      var listener = cc.EventListener.create({
+        event: cc.EventListener.MOUSE,
+        onMouseMove: function(event) {
+          controls.mousePosition = event.getLocation();
+        }
+      });
+      cc.eventManager.addListener(listener, sprite);
+    }
 
     this.onTouch = function(x, y) {
       var timestamp = new Date().getTime();
@@ -56,6 +88,14 @@ Model.Controls = (function() {
 
     this.clearDoubleTouching = function() {
       this.doubleTouch = null;
+    };
+
+    this.pressing = function(keyname) {
+      return this.keysPressing[KEYS[keyname]];
+    };
+
+    this.mouse = function() {
+      return this.mousePosition;
     };
   };
 
