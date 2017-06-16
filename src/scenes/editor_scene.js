@@ -37,7 +37,7 @@ Scenes.EditorScene = cc.Scene.extend({
   createRect: function(x, y, width, height, color) {
     var rect = cc.DrawNode.create();
     rect.col = color;
-    rect.bordercol = cc.color(color._getR()*0.5, color._getG()*0.5, color._getB()*0.5);
+    rect.bordercol = cc.color(color._getR()*0.5, color._getG()*0.2, color._getB()*0.2);
     this.updateRect(rect, x, y, width, height);
     return rect;
   },
@@ -84,6 +84,7 @@ Scenes.EditorScene = cc.Scene.extend({
     }
 
     if(controls.pressing("space") && this.squares.length > 0) {
+      var lines = "";
       for(var i = 0; i<this.squares.length; i++) {
         var square = this.squares[i];
         var width = (square[1].x - square[0].x);
@@ -99,8 +100,9 @@ Scenes.EditorScene = cc.Scene.extend({
         y = y.toFixed(2);
         width = width.toFixed(2);
         height = height.toFixed(2);
-        console.log("Model.Domain.BadGround.build({x: this.width*" + x + ",  y: this.height*" + y + "}, {width: this.width*" + width + ", height: this.height*" + height + "}),");
+        lines += "Model.Domain.BadGround.build({x: this.width*" + x + ",  y: this.height*" + y + "}, {width: this.width*" + width + ", height: this.height*" + height + "}),\n"
       }
+      console.log(lines);
       this.squares = [];
     }
   }
