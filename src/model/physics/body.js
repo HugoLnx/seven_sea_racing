@@ -143,11 +143,15 @@ Model.Physics.Body = function(width, height, solid, weight) {
   };
 
   this.topLeftCorner = function() {
-    return {x: this.x() - this.size().width/2, y: this.y() - this.size().height/2};
+    var inverseWidthFactor = this.size().width < 0 ? -1 : 1;
+    var inverseHeightFactor = this.size().height < 0 ? -1 : 1;
+    return {x: this.x() - this.size().width/2*inverseWidthFactor, y: this.y() - this.size().height/2*inverseHeightFactor};
   };
 
   this.bottomRightCorner = function() {
-    return {x: this.x() + this.size().width/2, y: this.y() + this.size().height/2};
+    var inverseWidthFactor = this.size().width < 0 ? -1 : 1;
+    var inverseHeightFactor = this.size().height < 0 ? -1 : 1;
+    return {x: this.x() + this.size().width/2*inverseWidthFactor, y: this.y() + this.size().height/2*inverseHeightFactor};
   };
 
   this.hasCollided = function(obj2) {
