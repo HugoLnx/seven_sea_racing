@@ -56,25 +56,27 @@ Model.Physics.Universe = (function() {
     }
 
     this.ensureUniverseLimits = function(body) {
-      if(body.x() < this.minX) {
-        body.x(this.minX);
-        body.acc.x = 0;
-        body.vel.x = 0;
-      }
-      if(body.x() > this.maxX) {
-        body.x(this.maxX);
-        body.acc.x = 0;
-        body.vel.x = 0;
-      }
-      if(body.y() < this.minY) {
-        body.y(this.minY);
-        body.acc.y = 0;
-        body.vel.y = 0;
-      }
-      if(body.y() > this.maxY) {
-        body.y(this.maxY);
-        body.acc.y = 0;
-        body.vel.y = 0;
+      if(body.isSolid()) {
+        if(body.x() < this.minX) {
+          body.x(this.minX);
+          body.acc.x = 0;
+          body.vel.x = 0;
+        }
+        if(body.x() > this.maxX) {
+          body.x(this.maxX);
+          body.acc.x = 0;
+          body.vel.x = 0;
+        }
+        if(body.y() < this.minY) {
+          body.y(this.minY);
+          body.acc.y = 0;
+          body.vel.y = 0;
+        }
+        if(body.y() > this.maxY) {
+          body.y(this.maxY);
+          body.acc.y = 0;
+          body.vel.y = 0;
+        }
       }
     };
   };
