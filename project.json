@@ -34,6 +34,8 @@
         "src/model/domain/enemy.js",
         "src/model/domain/turbo.js",
         "src/model/domain/bad_ground.js",
+        "src/model/domain/checkpoint.js",
+        "src/model/domain/checkpoint_manager.js",
         "src/layers/race_layer.js",
         "src/layers/hud.js",
         "src/scenes/race_scene.js",

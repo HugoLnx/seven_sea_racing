@@ -6,7 +6,14 @@ Model.Domain.Race = function(stage) {
     this.timeLeft = stage.timeLimitSeconds;
     this.width = stage.width;
     this.height = stage.height;
-    this.objects = [this.racer].concat(stage.objects().others);
+    this.objects = [this.racer].concat(stage.objects().others).concat(stage.objects().checkpoints);
+    var checkpointManager = new Model.Domain.CheckpointManager(stage.objects().checkpoints.length);
+    var checkpoints = stage.objects().checkpoints;
+    for(var i = 0; i<checkpoints.length; i++) {
+      var checkpoint = checkpoints[i];
+      checkpoint.manager(checkpointManager);
+      checkpoint.number(i + 1);
+    }
     var limits = this.calculateRacerLimits();
     Model.Physics.Universe.instance().setLimits(limits)
   };

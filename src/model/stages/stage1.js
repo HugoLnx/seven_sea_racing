@@ -22,6 +22,29 @@ Model.Stages.Stage1 = {
   objects: function() {
     this.objs = this.objs || {
       racer: Model.Domain.Racer.build({x: 0.00*this.width, y: 0.28*this.height}, 0),
+      checkpoints: [
+        Model.Domain.Checkpoint.build({x: this.width*-0.00,  y: this.height*0.26}, {width: this.width*0.04, height: this.height*-0.16}),
+
+        Model.Domain.Checkpoint.build({x: this.width*0.44,  y: this.height*0.15}, {width: this.width*0.09, height: this.height*-0.07}),
+        Model.Domain.Checkpoint.build({x: this.width*0.45,  y: this.height*-0.19}, {width: this.width*0.07, height: this.height*-0.07}),
+        Model.Domain.Checkpoint.build({x: this.width*0.34,  y: this.height*-0.28}, {width: this.width*0.03, height: this.height*-0.08}),
+        Model.Domain.Checkpoint.build({x: this.width*0.23,  y: this.height*-0.18}, {width: this.width*-0.09, height: this.height*-0.06}),
+        Model.Domain.Checkpoint.build({x: this.width*0.18,  y: this.height*-0.02}, {width: this.width*0.04, height: this.height*-0.10}),
+        Model.Domain.Checkpoint.build({x: this.width*-0.17,  y: this.height*-0.31}, {width: this.width*0.04, height: this.height*-0.14}),
+        Model.Domain.Checkpoint.build({x: this.width*-0.39,  y: this.height*-0.08}, {width: this.width*-0.08, height: this.height*-0.07}),
+
+        Model.Domain.Checkpoint.build({x: this.width*-0.38,  y: this.height*0.24}, {width: this.width*0.05, height: this.height*-0.18}),
+
+        Model.Domain.Checkpoint.build({x: this.width*-0.39,  y: this.height*-0.08}, {width: this.width*-0.08, height: this.height*-0.07}),
+        Model.Domain.Checkpoint.build({x: this.width*-0.17,  y: this.height*-0.31}, {width: this.width*0.04, height: this.height*-0.14}),
+        Model.Domain.Checkpoint.build({x: this.width*0.18,  y: this.height*-0.02}, {width: this.width*0.04, height: this.height*-0.10}),
+        Model.Domain.Checkpoint.build({x: this.width*0.23,  y: this.height*-0.18}, {width: this.width*-0.09, height: this.height*-0.06}),
+        Model.Domain.Checkpoint.build({x: this.width*0.34,  y: this.height*-0.28}, {width: this.width*0.03, height: this.height*-0.08}),
+        Model.Domain.Checkpoint.build({x: this.width*0.45,  y: this.height*-0.19}, {width: this.width*0.07, height: this.height*-0.07}),
+        Model.Domain.Checkpoint.build({x: this.width*0.44,  y: this.height*0.15}, {width: this.width*0.09, height: this.height*-0.07}),
+
+        Model.Domain.Checkpoint.build({x: this.width*-0.00,  y: this.height*0.26}, {width: this.width*0.04, height: this.height*-0.16}),
+      ],
       others: [
         Model.Domain.Enemy.build({x: 0.20*this.width, y: 0.19*this.height}, 90),
         Model.Domain.Turbo.build({x: 0.10*this.width, y: 0.35*this.height}),
