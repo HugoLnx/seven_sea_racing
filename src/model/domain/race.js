@@ -22,6 +22,10 @@ Model.Domain.Race = function(stage) {
     this.objects.push(obj);
   };
 
+  this.enableControls = function() {
+    this.racer.enableControls();
+  };
+
   this.update = function(deltaTime) {
     this.timeLeft -= deltaTime;
     this.currentFrame++;

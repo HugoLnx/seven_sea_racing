@@ -22,6 +22,10 @@ Sprites.RegularLabel = cc.Sprite.extend({
     this._labelFront.setString(str);
     this._labelBack.setString(str);
   },
+  setOpacity: function(val) {
+    this._labelBack.setOpacity(val);
+    this._labelFront.setOpacity(val);
+  },
   size: function() {
     return {
       width: this._labelBack.getContentSize().width*this._labelBack.getScaleX(),

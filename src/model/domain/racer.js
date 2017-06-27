@@ -13,13 +13,16 @@ Model.Domain.Racer = (function() {
     this.weapon = null;
     this.absoluteForce = USUAL_RUN_FORCE;
     this.direction = initialDirection;
+    this.controlsDisabled = true;
     var STATES = {clockwise: 1, neutral: 2, anticlockwise: 3};
-    var acctime = 0;
+
+    this.enableControls = function() {
+      this.controlsDisabled = false;
+    };
 
     this.behave = function(frame, deltaTime) {
-      acctime += deltaTime;
-      if(acctime >= 1) {
-        acctime = 0;
+      if(this.controlsDisabled) {
+        return true;
       }
       var ROTATION_SPEED_DEGREES_PER_SECOND = 180;
 

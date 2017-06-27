@@ -37,6 +37,7 @@
         "src/model/domain/checkpoint.js",
         "src/model/domain/checkpoint_manager.js",
         "src/layers/race_layer.js",
+        "src/layers/start_counting.js",
         "src/layers/hud.js",
         "src/scenes/race_scene.js",
         "src/scenes/start_scene.js",
