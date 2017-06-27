@@ -8,16 +8,16 @@ Model.Domain.Checkpoint = (function() {
 
   M.prototype.onCollision = function(model, deltaTime) {
     if(model.type === "racer") {
-      this.manager && this.manager.activateCheckpoint(this.number);
+      this._manager && this._manager.activateCheckpoint(this._number);
     }
   };
 
   M.prototype.manager = function(manager) {
-    this.manager = manager;
+    this._manager = manager;
   };
 
   M.prototype.number = function(number) {
-    this.number = number;
+    this._number = number;
   };
 
   M.build = function(position, size) {

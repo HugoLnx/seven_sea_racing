@@ -1,7 +1,6 @@
 Sprites.Racer = cc.SpriteBatchNode.extend({
   COMMON_SPEED_RANGE: [0.06, 0.12],
   TURBO_SPEED_RANGE: [0.02, 0.10],
-  rectangle: null,
   recoveringAnimation: false,
   recoveringBlinkDuration: 0,
   swimmingAnimation: null,
@@ -79,7 +78,6 @@ Sprites.Racer = cc.SpriteBatchNode.extend({
       this.sprite.setFlippedY(false);
     }
     this.setRotation(-direction);
-    if(this.rectangle) this.rectangle.setRotation(direction);
   },
   recovering: function(value) {
     this.recoveringAnimation = value;
