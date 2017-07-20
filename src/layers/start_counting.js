@@ -7,7 +7,6 @@ Layers.StartCounting = (function() {
     init: function() {
       this._super();
       this.label = new Sprites.RegularLabel(250);
-      var size = this.label.size();
       this.label.setPosition(cc.winSize.width/2, cc.winSize.height/2);
       this.updateLabel();
       this.addChild(this.label);
