@@ -2,7 +2,7 @@ Model.Stages.Stage1 = {
   width: 3252,
   height: 1816,
   timeLimitSeconds: 3*60,
-  background_track: function(){return res.background_track_png;},
+  background_track: function(){return res.track_pieces;},
   background_layers: function(){
     return [
       {

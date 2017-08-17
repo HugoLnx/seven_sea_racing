@@ -2,12 +2,7 @@ Sprites.NonCroppedFullBackground = cc.Sprite.extend({
   ctor: function(background_image, frameSize) {
     this._super();
     this.initWithFile(background_image);
-    this.setPosition(frameSize.width/2, frameSize.height/2);
-    var result = Lib.Math.expandInFrameWithoutCrop({
-      elementSize: {width: this.width, height: this.height},
-      frameSize: frameSize
-    });
-    this.setScale(result.scale, result.scale);
+    Sprites.NonCroppedFullBackground.scaleToFrame(this, frameSize)
   },
   
   size: function() {
@@ -18,3 +13,11 @@ Sprites.NonCroppedFullBackground = cc.Sprite.extend({
     return this.getScaleX();
   }
 });
+
+Sprites.NonCroppedFullBackground.scaleToFrame = function(object, frameSize) {
+  var result = Lib.Math.expandInFrameWithoutCrop({
+    elementSize: {width: object.width, height: object.height},
+    frameSize: frameSize
+  });
+  object.setScale(result.scale, result.scale);
+};

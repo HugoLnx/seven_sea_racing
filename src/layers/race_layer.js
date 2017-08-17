@@ -6,9 +6,9 @@ Layers.RaceLayer = cc.Layer.extend({
     var trackSprite = this.createBackgroundTrack(stage);
     var layers = this.createBackgroundLayers(stage);
     this.setScale(this.scale(), this.scale());
-    for(var i = 0; i < layers.length; i++) {
-      this.addChild(layers[i].sprite, i);
-    }
+    //for(var i = 0; i < layers.length; i++) {
+    //  this.addChild(layers[i].sprite, i);
+    //}
     this.addChild(trackSprite, layers.length);
     for(var i = 0; i<sprites.length; i++) {
       this.addChild(sprites[i], layers.length+1);
@@ -18,8 +18,9 @@ Layers.RaceLayer = cc.Layer.extend({
     this.stage = stage;
   },
   createBackgroundTrack: function(stage) {
-    var sprite = new Sprites.NonCroppedFullBackground(stage.background_track(), {width: stage.width, height: stage.height});
-    sprite.setPosition(0, 0);
+    var sprite = new Layers.TrackLayer();
+    sprite.init(stage.background_track(), 11, {width: stage.width, height: stage.height});
+    s = sprite;
     return sprite;
   },
   createBackgroundLayers: function(stage) {
